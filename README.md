@@ -3,14 +3,16 @@
 Submitted in partial fulfillment for the award of the degree of Bachelor Of Technology in Computer Science and Engineering  
 Specialization in Artificial Intelligence and Machine Learning. 
 
-**SRI HARI PRIYA PANCHUMARTHI**
+**SAMUEL MEKALA**
 
-School of Computer Science and Engineering  
+School of Computer Science and Business Systems!
 VIT-AP University  
 June, 2024  
 
 ---
-<img width="1440" height="900" alt="Screenshot 2025-07-31 at 9 16 25 AM" src="https://github.com/user-attachments/assets/fb4b5536-0cdd-48dd-b9c3-c7180c80e22a" />
+
+<img width="1440" height="781" alt="Screenshot 2025-07-31 at 1 39 11 PM" src="https://github.com/user-attachments/assets/36f74a52-65f2-4447-815f-cbd64e4a46ff" />
+
 ---
 ## Chapter 1: Introduction
 
