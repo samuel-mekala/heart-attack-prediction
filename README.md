@@ -126,7 +126,7 @@ heart-disease-prediction/
 
 ```bash
 # Clone the repo
-git clone https://github.com/samuelme26/heart-disease-prediction.git
+git clone https://github.com/samuel-mekala/heart-disease-prediction.git
 cd heart-disease-prediction
 
 # Install dependencies
