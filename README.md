@@ -8,7 +8,7 @@
 
 ## 📌 Overview
 
-Heart disease is one of the leading causes of death worldwide. This project builds a **machine learning-powered web application** that predicts the likelihood of a patient having heart disease based on their clinical profile — and suggests personalized lifestyle changes.
+Heart Attack is one of the leading causes of death worldwide. This project builds a **machine learning-powered web application** that predicts the likelihood of a patient having heart Attack based on their clinical profile — and suggests personalized lifestyle changes.
 
 We benchmarked **8 ML algorithms** on a comprehensive healthcare dataset and deployed the best model as a **live Flask web app** with real-time predictions.
 
@@ -100,9 +100,9 @@ The model is deployed as an interactive web app:
 ## 📁 Project Structure
 
 ```
-heart-disease-prediction/
+heart-Attack-prediction/
 ├── data/
-│   └── heart_disease_dataset.csv
+│   └── heart_Attack_dataset.csv
 ├── notebooks/
 │   └── EDA_and_Modeling.ipynb
 ├── models/
@@ -126,8 +126,8 @@ heart-disease-prediction/
 
 ```bash
 # Clone the repo
-git clone https://github.com/samuel-mekala/heart-disease-prediction.git
-cd heart-disease-prediction
+git clone https://github.com/samuel-mekala/heart-Attack-prediction.git
+cd heart-Attack-prediction
 
 # Install dependencies
 pip install -r requirements.txt
