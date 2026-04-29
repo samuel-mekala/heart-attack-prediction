@@ -1,151 +1,164 @@
-# Heart Attack Prediction
+# 🫀 Heart Attack Prediction
 
-Submitted in partial fulfillment for the award of the degree of Bachelor Of Technology in Computer Science and Engineering  
-Specialization in Artificial Intelligence and Machine Learning. 
-
-**SAMUEL MEKALA**
-
-School of Computer Science and Business Systems!
-VIT-AP University  
-June, 2024  
+> **ML Internship Project** · IntrainTech, Bangalore · Aug–Nov 2023  
+> **Role:** Machine Learning Engineer Intern  
+> **My Role:** Data preprocessing · Model implementation · Flask deployment
 
 ---
 
-<img width="1440" height="781" alt="Screenshot 2025-07-31 at 1 39 11 PM" src="https://github.com/user-attachments/assets/36f74a52-65f2-4447-815f-cbd64e4a46ff" />
+## 📌 Overview
 
----
-## Chapter 1: Introduction
+Heart disease is one of the leading causes of death worldwide. This project builds a **machine learning-powered web application** that predicts the likelihood of a patient having heart disease based on their clinical profile — and suggests personalized lifestyle changes.
 
-### HEART ATTACK PREDICTION
-
-The project aims to predict the risk of heart attacks using machine learning algorithms and diverse health data. The predictive model facilitates early identification and proactive intervention, enhancing patient outcomes and healthcare efficiency.
-
-### Objectives
-
-- Preventing risk in healthcare
-- Develop a precise model for early identification
-- Create personalized risk assessments
-- Ensure integration into healthcare systems
-
-### Solution
-
-The Heart Attack Prediction System employs machine learning algorithms and classification techniques to assess heart attack risks accurately.
-
-### Scope
-
-- Targeted Awareness Campaigns
-- Risk Profiling and Education
-- Personalized Digital Tools
-- Healthcare Collaboration
-- Community Engagement Programs
+We benchmarked **8 ML algorithms** on a comprehensive healthcare dataset and deployed the best model as a **live Flask web app** with real-time predictions.
 
 ---
 
-## Chapter 2: Data Segmentation and Visualization
+## 🏆 Model Comparison Results
 
-### AGILE METHOD
+| Model | Accuracy | ROC-AUC |
+|---|---|---|
+| **Random Forest** | **67%** | **0.673** |
+| Extra Trees | 65% | 0.652 |
+| SVM | 65% | 0.652 |
+| XGBoost | 63% | 0.633 |
+| Gradient Boosting | 64% | 0.635 |
+| AdaBoost | 63% | 0.628 |
+| KNN | 61% | 0.608 |
+| Decision Tree | 58% | 0.581 |
 
-The project follows the AGILE methodology for development: Plan-Code-Train-Test-Deploy.
-
-### Data Sources
-
-The heart attack prediction dataset is sourced from Kaggle, containing 5125 rows and 14 columns.
-
-### Data Preparation
-
-Data cleaning involves identifying and correcting errors to ensure data accuracy.
-
-### Data Visualizations
-
-- Plotting trends and patterns in risk factors
-- Creating intuitive charts like scatter plots and heatmaps
-- Using interactive visualizations for model performance
+> **Random Forest Classifier selected as the final model** — best overall accuracy and ROC-AUC.
 
 ---
 
-## Chapter 3: Model Training and Testing
+## 📊 Dataset
 
-### Model Training and Testing
+**76 clinical attributes** (subset of 26 used). Key features include:
 
-#### Model Training
-
-- Data Preparation
-- Feature Engineering
-- Model Selection
-- Hyperparameter Optimization
-- Training Process
-
-#### Model Testing
-
-- Data Preparation
-- Model Evaluation
-- Error Analysis
-- Model Improvement
-
-### Cross Validation
-
-- K-Fold Cross-Validation for robust model assessment
-
-### ML Models
-
-- Logistic Regression
-- Naive Bayes
-- Random Forest Classifier
-- Extreme Gradient Boost
-- K-Nearest Neighbor
-- Decision Tree
-- Support Vector Machine
-
-### Graphs on Model Accuracy Comparison
-
-- ROC curves for model evaluation
-
-### Finalized Model: Extreme Gradient Boost (XGBoost)
-
-Best accuracy among all models, suitable for clinical applications.
+| Category | Features |
+|---|---|
+| **Demographics** | Age, Sex, Country, Continent |
+| **Vitals** | Blood Pressure, Heart Rate, Cholesterol, BMI, Triglycerides |
+| **Lifestyle** | Smoking, Alcohol, Exercise Hours/Week, Diet, Sedentary Hours, Stress Level |
+| **Medical History** | Diabetes, Family History, Previous Heart Problems, Medication Use |
+| **Target** | Heart Attack Risk (1 = Yes, 0 = No) |
 
 ---
 
-## Chapter 4: Deployment: Flask App
+## ⚙️ Methodology
 
-### Series of Deployment Steps
+### Preprocessing Pipeline
+```
+Raw Data
+    → Handle Missing Values
+    → Feature Engineering
+    → Label Encoding (categorical → numeric)
+    → SMOTE (handle class imbalance)
+    → Train/Test Split (80/20)
+    → Standardization (StandardScaler)
+```
 
-1. Prepare and Train Model
-2. Create Flask App Structure
-3. Serialize Model
-4. Create Prediction Endpoint
-5. Build Frontend Interface
-6. Deploy on Hosting Service
-7. Testing and Validation
-8. Maintenance and Updates
+### Models Benchmarked
+1. Decision Tree Classifier
+2. Support Vector Machines (SVM)
+3. Random Forest Classifier ✅ (Best)
+4. Gradient Boosting Classifier
+5. AdaBoost Classifier
+6. Extra Trees Classifier
+7. K-Nearest Neighbors (KNN)
+8. XGBoost Classifier
 
----
-
-## Chapter 5: Conclusion and Future Works
-
-### Conclusion
-
-The project successfully develops a robust machine learning model for heart attack prediction, enhancing healthcare outcomes and efficiency.
-
-### Future Works
-
-- Integration with Electronic Health Records (EHR)
-- Incorporation of More Diverse Datasets
-- Real-time Monitoring and Alerts
-- Enhanced Feature Engineering
-- Model Explainability
-- Deployment and User Testing
-- Ethical and Privacy Considerations
+### Evaluation Metrics
+- Accuracy · Precision · Recall · F1-Score
+- ROC-AUC Score
+- Confusion Matrix · Correlation Heatmap
 
 ---
 
-## References
+## 🖥️ Flask Web Application
 
-- James, G., Witten, D., Hastie, T., & Tibshirani, R. (2013). *An Introduction to Statistical Learning*. Springer.
-- Friedman, J., Hastie, T., & Tibshirani, R. (2001). *The Elements of Statistical Learning*. Springer.
-- Kohavi, R. (1995). *A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection*. Proceedings of the 14th International Joint Conference on Artificial Intelligence (IJCAI).
-- Stone, M. (1974). *Cross-Validatory Choice and Assessment of Statistical Predictions*. Journal of the Royal Statistical Society.
-- McKinney, W. (2010). *Data Structures for Statistical Computing in Python*. Proceedings of the 9th Python in Science Conference.
-- Hunter, J. D. (2007). *Matplotlib: A 2D Graphics Environment*. Computing in Science & Engineering, 9(3), 90-95.
-- Pedregosa, F., Varoquaux, G., Gramfort, A., et al. (2011). *Scikit-learn: Machine Learning in Python*. Journal of Machine Learning Research, 12, 2825-2830.
-- Chen, T., & Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining.
+The model is deployed as an interactive web app:
+- **Input:** Patient fills a clinical form (age, BP, cholesterol, lifestyle, etc.)
+- **Output:** Heart attack risk prediction (High / Low)
+- **Bonus:** Personalized lifestyle change recommendations based on risk factors
+
+---
+
+## 🛠️ Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=flat-square)
+![Seaborn](https://img.shields.io/badge/Seaborn-3c7ebf?style=flat-square)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=flat-square&logo=powerbi&logoColor=black)
+
+---
+
+## 📁 Project Structure
+
+```
+heart-disease-prediction/
+├── data/
+│   └── heart_disease_dataset.csv
+├── notebooks/
+│   └── EDA_and_Modeling.ipynb
+├── models/
+│   └── random_forest_model.pkl
+├── app/
+│   ├── app.py              # Flask application
+│   ├── templates/
+│   │   ├── index.html
+│   │   └── result.html
+│   └── static/
+│       └── style.css
+├── preprocessing.py
+├── train.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🚀 How to Run
+
+```bash
+# Clone the repo
+git clone https://github.com/samuelme26/heart-disease-prediction.git
+cd heart-disease-prediction
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Train the model
+python train.py
+
+# Run the Flask app
+python app/app.py
+
+# Open browser → http://localhost:5000
+```
+
+---
+
+## 📈 Key Visualizations
+
+- **Correlation Heatmap** — Identifies most predictive clinical features
+- **Distribution Plots** — Class balance analysis before and after SMOTE
+- **Heart Attack Risk by Country** — Geographic distribution of risk
+- **ROC Curves** — Comparative model performance
+
+---
+
+## 🔮 Future Work
+
+- [ ] Improve accuracy with ensemble stacking
+- [ ] Deploy on cloud (AWS / Heroku)
+- [ ] Build mobile app version
+- [ ] Add SHAP explainability for each prediction
+
+---
+
+*IntrainTech Internship Project · Bangalore · Aug–Nov 2023*
