@@ -100,24 +100,12 @@ The model is deployed as an interactive web app:
 ## 📁 Project Structure
 
 ```
-heart-Attack-prediction/
-├── data/
-│   └── heart_Attack_dataset.csv
-├── notebooks/
-│   └── EDA_and_Modeling.ipynb
-├── models/
-│   └── random_forest_model.pkl
-├── app/
-│   ├── app.py              # Flask application
-│   ├── templates/
-│   │   ├── index.html
-│   │   └── result.html
-│   └── static/
-│       └── style.css
-├── preprocessing.py
-├── train.py
-├── requirements.txt
-└── README.md
+heart-attack-prediction/
+├── server.py                          ← fixed version (run this)
+├── heart_attack_prediction_dataset.csv
+└── templates/
+    ├── test.html                      ← input form
+    └── result_template.html           ← results page
 ```
 
 ---
