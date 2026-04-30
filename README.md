@@ -4,54 +4,56 @@
 > **Role:** Machine Learning Engineer Intern  
 > **My Role:** Data preprocessing · Model implementation · Flask deployment
 
----
+-----
 
 ## 📌 Overview
 
-Heart Attack is one of the leading causes of death worldwide. This project builds a **machine learning-powered web application** that predicts the likelihood of a patient having heart Attack based on their clinical profile — and suggests personalized lifestyle changes.
+Heart disease is one of the leading causes of death worldwide. This project builds a **machine learning-powered web application** that predicts the likelihood of a patient having a heart attack based on their clinical profile — and suggests personalized lifestyle changes.
 
 We benchmarked **8 ML algorithms** on a comprehensive healthcare dataset and deployed the best model as a **live Flask web app** with real-time predictions.
 
----
+-----
 
 ## 🏆 Model Comparison Results
 
-| Model | Accuracy | ROC-AUC |
-|---|---|---|
-| **Random Forest** | **67%** | **0.673** |
-| Extra Trees | 65% | 0.652 |
-| SVM | 65% | 0.652 |
-| XGBoost | 63% | 0.633 |
-| Gradient Boosting | 64% | 0.635 |
-| AdaBoost | 63% | 0.628 |
-| KNN | 61% | 0.608 |
-| Decision Tree | 58% | 0.581 |
+|Model            |Accuracy|ROC-AUC  |
+|-----------------|--------|---------|
+|**Random Forest**|**67%** |**0.673**|
+|Extra Trees      |65%     |0.652    |
+|SVM              |65%     |0.652    |
+|XGBoost          |63%     |0.633    |
+|Gradient Boosting|64%     |0.635    |
+|AdaBoost         |63%     |0.628    |
+|KNN              |61%     |0.608    |
+|Decision Tree    |58%     |0.581    |
+
 
 > **Random Forest Classifier selected as the final model** — best overall accuracy and ROC-AUC.
 
----
+-----
 
 ## 📊 Dataset
 
-**76 clinical attributes** (subset of 26 used). Key features include:
+**Heart Attack Risk Prediction Dataset** (Kaggle) — 25 clinical features used. Key features include:
 
-| Category | Features |
-|---|---|
-| **Demographics** | Age, Sex, Country, Continent |
-| **Vitals** | Blood Pressure, Heart Rate, Cholesterol, BMI, Triglycerides |
-| **Lifestyle** | Smoking, Alcohol, Exercise Hours/Week, Diet, Sedentary Hours, Stress Level |
-| **Medical History** | Diabetes, Family History, Previous Heart Problems, Medication Use |
-| **Target** | Heart Attack Risk (1 = Yes, 0 = No) |
+|Category           |Features                                                                                                       |
+|-------------------|---------------------------------------------------------------------------------------------------------------|
+|**Demographics**   |Age, Sex, Country, Continent, Hemisphere                                                                       |
+|**Vitals**         |Blood Pressure (Systolic/Diastolic), Heart Rate, Cholesterol, BMI, Triglycerides                               |
+|**Lifestyle**      |Smoking, Alcohol, Exercise Hours/Week, Diet, Sedentary Hours, Stress Level, Sleep Hours, Physical Activity Days|
+|**Medical History**|Diabetes, Family History, Previous Heart Problems, Medication Use, Obesity                                     |
+|**Target**         |Heart Attack Risk (1 = Yes, 0 = No)                                                                            |
 
----
+-----
 
 ## ⚙️ Methodology
 
 ### Preprocessing Pipeline
+
 ```
 Raw Data
     → Handle Missing Values
-    → Feature Engineering
+    → Feature Engineering (split Blood Pressure → Systolic/Diastolic)
     → Label Encoding (categorical → numeric)
     → SMOTE (handle class imbalance)
     → Train/Test Split (80/20)
@@ -59,30 +61,33 @@ Raw Data
 ```
 
 ### Models Benchmarked
+
 1. Decision Tree Classifier
-2. Support Vector Machines (SVM)
-3. Random Forest Classifier ✅ (Best)
-4. Gradient Boosting Classifier
-5. AdaBoost Classifier
-6. Extra Trees Classifier
-7. K-Nearest Neighbors (KNN)
-8. XGBoost Classifier
+1. Support Vector Machines (SVM)
+1. Random Forest Classifier ✅ (Best)
+1. Gradient Boosting Classifier
+1. AdaBoost Classifier
+1. Extra Trees Classifier
+1. K-Nearest Neighbors (KNN)
+1. XGBoost Classifier
 
 ### Evaluation Metrics
+
 - Accuracy · Precision · Recall · F1-Score
 - ROC-AUC Score
-- Confusion Matrix · Correlation Heatmap
+- Confusion Matrix · Correlation Heatmap · Feature Importance
 
----
+-----
 
 ## 🖥️ Flask Web Application
 
 The model is deployed as an interactive web app:
-- **Input:** Patient fills a clinical form (age, BP, cholesterol, lifestyle, etc.)
-- **Output:** Heart attack risk prediction (High / Low)
-- **Bonus:** Personalized lifestyle change recommendations based on risk factors
 
----
+- **Input:** Patient fills a clinical form (age, BP, cholesterol, lifestyle, etc.)
+- **Output:** Heart attack risk prediction (High / Low) with probability score
+- **Bonus:** Personalized lifestyle change recommendations based on specific risk factors
+
+-----
 
 ## 🛠️ Tech Stack
 
@@ -95,50 +100,79 @@ The model is deployed as an interactive web app:
 ![Seaborn](https://img.shields.io/badge/Seaborn-3c7ebf?style=flat-square)
 ![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=flat-square&logo=powerbi&logoColor=black)
 
----
+-----
 
 ## 📁 Project Structure
 
 ```
 heart-attack-prediction/
-├── server.py                          ← fixed version (run this)
-├── heart_attack_prediction_dataset.csv
-└── templates/
-    ├── test.html                      ← input form
-    └── result_template.html           ← results page
+├── server.py                           # Flask app — trains model & serves predictions
+├── heart_attack_prediction_dataset.csv # Dataset (8,763 patient records)
+├── templates/
+│   ├── test.html                       # Patient input form (Bootstrap UI)
+│   └── result_template.html            # Risk result + lifestyle suggestions (Tailwind)
+├── requirements.txt
+└── README.md
 ```
 
----
+-----
 
 ## 🚀 How to Run
 
+### Prerequisites
+
+- Python 3.8 or above
+- pip
+
+### Step 1 — Clone the repo
+
 ```bash
-# Clone the repo
-git clone https://github.com/samuel-mekala/heart-Attack-prediction.git
-cd heart-Attack-prediction
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Train the model
-python train.py
-
-# Run the Flask app
-python app/app.py
-
-# Open browser → http://localhost:5000
+git clone https://github.com/samuel-mekala/heart-attack-prediction.git
+cd heart-attack-prediction
 ```
 
----
+### Step 2 — Install dependencies
+
+```bash
+pip install flask pandas numpy scikit-learn imbalanced-learn
+```
+
+### Step 3 — Run the Flask app
+
+```bash
+python server.py
+```
+
+> The app trains the Random Forest model automatically on startup (takes ~10–15 seconds).  
+> You will see: `Model trained. Test Accuracy: XX.X%` in the terminal when it’s ready.
+
+### Step 4 — Open in browser
+
+```
+http://localhost:5000
+```
+
+### Step 5 — Use the app
+
+1. Fill in the patient details form (age, BP, cholesterol, lifestyle habits etc.)
+1. Click **Analyze**
+1. Results page shows:
+- Heart attack risk probability score (0.0 – 1.0)
+- 🔴 Red alert if score > 0.75 (consult doctor immediately)
+- 🟡 Yellow warning if score > 0.45
+- 🟢 Green if low risk
+- Personalised lifestyle change suggestions
+
+-----
 
 ## 📈 Key Visualizations
 
-- **Correlation Heatmap** — Identifies most predictive clinical features
-- **Distribution Plots** — Class balance analysis before and after SMOTE
-- **Heart Attack Risk by Country** — Geographic distribution of risk
-- **ROC Curves** — Comparative model performance
+- **Correlation Heatmap** — identifies most predictive clinical features
+- **Target Distribution** — class balance before and after SMOTE
+- **Feature Importance** — top 15 predictors from Random Forest
+- **ROC Curves** — comparative model performance
 
----
+-----
 
 ## 🔮 Future Work
 
@@ -147,6 +181,6 @@ python app/app.py
 - [ ] Build mobile app version
 - [ ] Add SHAP explainability for each prediction
 
----
+-----
 
 *IntrainTech Internship Project · Bangalore · Aug–Nov 2023*
