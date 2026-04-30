@@ -109,8 +109,8 @@ heart-attack-prediction/
 ├── server.py                           # Flask app — trains model & serves predictions
 ├── heart_attack_prediction_dataset.csv # Dataset (8,763 patient records)
 ├── templates/
-│   ├── test.html                       # Patient input form (Bootstrap UI)
-│   └── result_template.html            # Risk result + lifestyle suggestions (Tailwind)
+│   ├── test.html                       # Patient input form
+│   └── result_template.html            # Risk result + lifestyle suggestions
 ├── requirements.txt
 └── README.md
 ```
@@ -119,49 +119,20 @@ heart-attack-prediction/
 
 ## 🚀 How to Run
 
-### Prerequisites
-
-- Python 3.8 or above
-- pip
-
-### Step 1 — Clone the repo
-
 ```bash
+# Clone the repo
 git clone https://github.com/samuel-mekala/heart-attack-prediction.git
 cd heart-attack-prediction
-```
 
-### Step 2 — Install dependencies
+# Install dependencies
+pip install -r requirements.txt
 
-```bash
-pip install flask pandas numpy scikit-learn imbalanced-learn
-```
-
-### Step 3 — Run the Flask app
-
-```bash
+# Run the Flask app
+# (Model trains automatically on startup — takes ~10–15 seconds)
 python server.py
+
+# Open browser → http://localhost:5000
 ```
-
-> The app trains the Random Forest model automatically on startup (takes ~10–15 seconds).  
-> You will see: `Model trained. Test Accuracy: XX.X%` in the terminal when it’s ready.
-
-### Step 4 — Open in browser
-
-```
-http://localhost:5000
-```
-
-### Step 5 — Use the app
-
-1. Fill in the patient details form (age, BP, cholesterol, lifestyle habits etc.)
-1. Click **Analyze**
-1. Results page shows:
-- Heart attack risk probability score (0.0 – 1.0)
-- 🔴 Red alert if score > 0.75 (consult doctor immediately)
-- 🟡 Yellow warning if score > 0.45
-- 🟢 Green if low risk
-- Personalised lifestyle change suggestions
 
 -----
 
