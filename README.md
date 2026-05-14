@@ -1,93 +1,95 @@
-# 🫀 Heart Attack Prediction
+# 🫀 Heart Attack Risk Prediction
 
-> **ML Internship Project** · IntrainTech, Bangalore · Aug–Nov 2023  
-> **Role:** Machine Learning Engineer Intern  
-> **My Role:** Data preprocessing · Model implementation · Flask deployment
+> **ML Internship Project** · IntrainTech, Bangalore · Aug–Nov 2023
+> **Role:** Machine Learning Engineer Intern
 
------
+[![Python](https://img.shields.io/badge/Python-3.10-blue?style=flat-square&logo=python)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.0-000000?style=flat-square&logo=flask)](https://flask.palletsprojects.com)
+[![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?style=flat-square&logo=powerbi)](Dashboard.pbix)
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?style=flat-square&logo=github-actions)](/.github/workflows/ci.yml)
 
-## 📌 Overview
+---
 
-Heart disease is one of the leading causes of death worldwide. This project builds a **machine learning-powered web application** that predicts the likelihood of a patient having a heart attack based on their clinical profile — and suggests personalized lifestyle changes.
+## 📌 What This Project Does
 
-We benchmarked **8 ML algorithms** on a comprehensive healthcare dataset and deployed the best model as a **live Flask web app** with real-time predictions.
+End-to-end heart attack risk prediction system — from raw clinical data to a **live Flask web application** and **Power BI dashboard**. Patients fill a form, the model predicts risk probability, and the app returns personalised lifestyle change recommendations.
 
------
+---
 
-## 🏆 Model Comparison Results
-
-|Model            |Accuracy|ROC-AUC  |
-|-----------------|--------|---------|
-|**Random Forest**|**67%** |**0.673**|
-|Extra Trees      |65%     |0.652    |
-|SVM              |65%     |0.652    |
-|XGBoost          |63%     |0.633    |
-|Gradient Boosting|64%     |0.635    |
-|AdaBoost         |63%     |0.628    |
-|KNN              |61%     |0.608    |
-|Decision Tree    |58%     |0.581    |
-
-
-> **Random Forest Classifier selected as the final model** — best overall accuracy and ROC-AUC.
-
------
-
-## 📊 Dataset
-
-**Heart Attack Risk Prediction Dataset** (Kaggle) — 25 clinical features used. Key features include:
-
-|Category           |Features                                                                                                       |
-|-------------------|---------------------------------------------------------------------------------------------------------------|
-|**Demographics**   |Age, Sex, Country, Continent, Hemisphere                                                                       |
-|**Vitals**         |Blood Pressure (Systolic/Diastolic), Heart Rate, Cholesterol, BMI, Triglycerides                               |
-|**Lifestyle**      |Smoking, Alcohol, Exercise Hours/Week, Diet, Sedentary Hours, Stress Level, Sleep Hours, Physical Activity Days|
-|**Medical History**|Diabetes, Family History, Previous Heart Problems, Medication Use, Obesity                                     |
-|**Target**         |Heart Attack Risk (1 = Yes, 0 = No)                                                                            |
-
------
-
-## ⚙️ Methodology
-
-### Preprocessing Pipeline
+## 🏗️ System Architecture
 
 ```
-Raw Data
-    → Handle Missing Values
-    → Feature Engineering (split Blood Pressure → Systolic/Diastolic)
-    → Label Encoding (categorical → numeric)
-    → SMOTE (handle class imbalance)
-    → Train/Test Split (80/20)
-    → Standardization (StandardScaler)
+Patient fills web form (test.html)
+            │
+            ▼ POST /predict
+┌──────────────────────────────┐
+│         server.py            │
+│                              │
+│  1. Parse form inputs        │
+│  2. Scale with StandardScaler│
+│  3. model.predict_proba()    │
+│  4. determine_lifestyle_     │
+│     changes(prob, inputs)    │
+│  5. Return JSON response     │
+└──────────────┬───────────────┘
+               │
+               ▼
+    result_template.html
+    • Risk probability score
+    • High / Low risk label
+    • Personalised recommendations
+      (smoking, BMI, exercise,
+       diet, sleep, stress)
 ```
 
-### Models Benchmarked
+---
 
-1. Decision Tree Classifier
-1. Support Vector Machines (SVM)
-1. Random Forest Classifier ✅ (Best)
-1. Gradient Boosting Classifier
-1. AdaBoost Classifier
-1. Extra Trees Classifier
-1. K-Nearest Neighbors (KNN)
-1. XGBoost Classifier
+## 📊 Model Benchmark (10-Fold Cross-Validation)
 
-### Evaluation Metrics
+| Model | Accuracy |
+|---|---|
+| **Random Forest** ✅ | **69.17%** |
+| Light Gradient Boost | ~67% |
+| SVM | ~65% |
+| XGBoost | ~64% |
+| KNN | ~63% |
+| Logistic Regression | ~62% |
+| Decision Tree | ~58% |
+| Naive Bayes | ~57% |
 
-- Accuracy · Precision · Recall · F1-Score
-- ROC-AUC Score
-- Confusion Matrix · Correlation Heatmap · Feature Importance
+**Random Forest selected** — best cross-validated accuracy across 10 folds. Evaluated using Accuracy, F1-Score, ROC-AUC, Precision, and Recall.
 
------
+---
 
-## 🖥️ Flask Web Application
+## 🔑 Key Engineering Decisions
 
-The model is deployed as an interactive web app:
+**Why SMOTE before training?**
+Heart attack risk classes are imbalanced. SMOTE generates synthetic minority samples preserving feature distributions, preventing the model from always predicting the majority class.
 
-- **Input:** Patient fills a clinical form (age, BP, cholesterol, lifestyle, etc.)
-- **Output:** Heart attack risk prediction (High / Low) with probability score
-- **Bonus:** Personalized lifestyle change recommendations based on specific risk factors
+**Why StandardScaler?**
+Features like Cholesterol (100–300), BMI (15–45), and Heart Rate (60–100) have very different ranges. Scaling ensures no single feature dominates distance-based calculations.
 
------
+**Why lifestyle recommendations?**
+A risk score alone isn't actionable. The recommendations engine maps specific input values (Smoking=1, BMI>25, Exercise<1.25h/week) to concrete changes — making the app clinically useful.
+
+**Why split Blood Pressure?**
+The raw dataset stores BP as "120/80" string. Splitting into systolic and diastolic gives the model two meaningful numeric features instead of one useless string.
+
+---
+
+## 🗂️ Dataset
+
+**Heart Attack Risk Prediction Dataset** — 8,763 patient records, 25 features:
+
+| Category | Features |
+|---|---|
+| Demographics | Age, Sex, Country, Continent, Hemisphere |
+| Vitals | BP (Systolic/Diastolic split), Heart Rate, Cholesterol, BMI, Triglycerides |
+| Lifestyle | Smoking, Alcohol, Exercise Hrs/Week, Diet, Sedentary Hrs, Stress Level, Sleep Hrs |
+| Medical History | Diabetes, Family History, Previous Heart Problems, Obesity, Medication Use |
+| Target | Heart Attack Risk (0 = Low, 1 = High) |
+
+---
 
 ## 🛠️ Tech Stack
 
@@ -95,27 +97,29 @@ The model is deployed as an interactive web app:
 ![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=flat-square)
-![Seaborn](https://img.shields.io/badge/Seaborn-3c7ebf?style=flat-square)
 ![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=flat-square&logo=powerbi&logoColor=black)
 
------
+---
 
 ## 📁 Project Structure
 
 ```
 heart-attack-prediction/
-├── server.py                           # Flask app — trains model & serves predictions
-├── heart_attack_prediction_dataset.csv # Dataset (8,763 patient records)
+├── .github/
+│   └── workflows/
+│       └── ci.yml                       # GitHub Actions CI
+├── server.py                            # Flask app — trains model + serves predictions
+├── 1.ipynb                              # Full EDA + 8-model benchmark notebook
+├── heart_attack_prediction_dataset.csv  # Dataset (8,763 patient records)
+├── Dashboard.pbix                       # Power BI dashboard
 ├── templates/
-│   ├── test.html                       # Patient input form
-│   └── result_template.html            # Risk result + lifestyle suggestions
+│   ├── test.html                        # Patient input form
+│   └── result_template.html             # Risk result + lifestyle suggestions
 ├── requirements.txt
 └── README.md
 ```
 
------
+---
 
 ## 🚀 How to Run
 
@@ -128,30 +132,25 @@ cd heart-attack-prediction
 pip install -r requirements.txt
 
 # Run the Flask app
-# (Model trains automatically on startup — takes ~10–15 seconds)
+# (model trains automatically on startup — ~10-15 seconds)
 python server.py
 
 # Open browser → http://localhost:5000
+
+# To explore EDA and all 8 models:
+jupyter notebook 1.ipynb
 ```
 
------
-
-## 📈 Key Visualizations
-
-- **Correlation Heatmap** — identifies most predictive clinical features
-- **Target Distribution** — class balance before and after SMOTE
-- **Feature Importance** — top 15 predictors from Random Forest
-- **ROC Curves** — comparative model performance
-
------
+---
 
 ## 🔮 Future Work
 
-- [ ] Improve accuracy with ensemble stacking
-- [ ] Deploy on cloud (AWS / Heroku)
-- [ ] Build mobile app version
-- [ ] Add SHAP explainability for each prediction
+- [ ] Deploy on Render for public access
+- [ ] Add SHAP explainability — show which features drive each prediction
+- [ ] REST API endpoint for hospital management system integration
+- [ ] Patient history tracking with database backend
+- [ ] Retrain pipeline with new patient data
 
------
+---
 
-*IntrainTech Internship Project · Bangalore · Aug–Nov 2023*
+*IntrainTech Internship · Bangalore · Aug–Nov 2023*
