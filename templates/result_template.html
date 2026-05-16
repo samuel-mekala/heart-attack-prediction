@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -19,374 +18,369 @@
       --muted: #8892a4;
     }
 
-```
-* { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(232,64,64,0.06) 0%, transparent 60%);
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(232,64,64,0.06) 0%, transparent 60%);
+    }
 
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
-}
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
 
-/* ── Back link ── */
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--muted);
-  font-size: 0.82rem;
-  text-decoration: none;
-  margin-bottom: 2rem;
-  transition: color 0.2s;
-}
-.back:hover { color: var(--text); }
-.back svg { width: 14px; height: 14px; fill: currentColor; }
+    /* ── Back link ── */
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back:hover { color: var(--text); }
+    .back svg { width: 14px; height: 14px; fill: currentColor; }
 
-/* ── Header ── */
-.result-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  animation: fadeDown 0.5s ease both;
-}
+    /* ── Header ── */
+    .result-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeDown 0.5s ease both;
+    }
 
-.result-header h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-}
+    .result-header h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
 
-.result-header p {
-  color: var(--muted);
-  font-size: 0.88rem;
-  margin-top: 0.4rem;
-}
+    .result-header p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 0.4rem;
+    }
 
-/* ── Risk gauge card ── */
-.risk-card {
-  background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  padding: 2.5rem 2rem;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  animation: fadeUp 0.5s ease 0.1s both;
-  position: relative;
-  overflow: hidden;
-}
+    /* ── Risk gauge card ── */
+    .risk-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.5s ease 0.1s both;
+      position: relative;
+      overflow: hidden;
+    }
 
-.risk-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--risk-color, var(--accent));
-}
+    .risk-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--risk-color, var(--accent));
+    }
 
-.risk-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 1rem;
-}
+    .risk-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
 
-/* ── Gauge ── */
-.gauge-wrap {
-  position: relative;
-  display: inline-block;
-  margin: 1rem 0;
-}
+    /* ── Gauge ── */
+    .gauge-wrap {
+      position: relative;
+      display: inline-block;
+      margin: 1rem 0;
+    }
 
-.gauge-svg { width: 200px; height: 110px; }
+    .gauge-svg { width: 200px; height: 110px; }
 
-.gauge-track {
-  fill: none;
-  stroke: var(--border);
-  stroke-width: 12;
-  stroke-linecap: round;
-}
+    .gauge-track {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 12;
+      stroke-linecap: round;
+    }
 
-.gauge-fill {
-  fill: none;
-  stroke-width: 12;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1);
-}
+    .gauge-fill {
+      fill: none;
+      stroke-width: 12;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1);
+    }
 
-.gauge-value {
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-}
+    .gauge-value {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
 
-.gauge-pct {
-  font-size: 2.8rem;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  font-family: 'DM Mono', monospace;
-}
+    .gauge-pct {
+      font-size: 2.8rem;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      font-family: 'DM Mono', monospace;
+    }
 
-.gauge-sub {
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin-top: 0.2rem;
-}
+    .gauge-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
 
-.risk-verdict {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  letter-spacing: -0.02em;
-}
+    .risk-verdict {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      letter-spacing: -0.02em;
+    }
 
-.risk-desc {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-top: 0.5rem;
-  line-height: 1.6;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
+    .risk-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      line-height: 1.6;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-/* ── Stats row ── */
-.stats-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  animation: fadeUp 0.5s ease 0.2s both;
-}
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.5s ease 0.2s both;
+    }
 
-.stat-card {
-  background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  padding: 1.25rem 1rem;
-  text-align: center;
-}
+    .stat-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
 
-.stat-val {
-  font-family: 'DM Mono', monospace;
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: var(--text);
-}
+    .stat-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+    }
 
-.stat-label {
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin-top: 0.3rem;
-}
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
 
-/* ── Lifestyle changes ── */
-.changes-card {
-  background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  padding: 1.75rem;
-  margin-bottom: 1.5rem;
-  animation: fadeUp 0.5s ease 0.3s both;
-}
+    /* ── Lifestyle changes ── */
+    .changes-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.5s ease 0.3s both;
+    }
 
-.changes-card h3 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+    .changes-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-.changes-card h3 .dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--yellow);
-  flex-shrink: 0;
-}
+    .changes-card h3 .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--yellow);
+      flex-shrink: 0;
+    }
 
-.change-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
+    .change-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
 
-.change-item:last-child { border-bottom: none; }
+    .change-item:last-child { border-bottom: none; }
 
-.change-item .icon {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  background: rgba(245,158,11,0.12);
-  border: 1px solid rgba(245,158,11,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 0.9rem;
-}
+    .change-item .icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
 
-.no-changes {
-  text-align: center;
-  padding: 1.5rem;
-  color: var(--green);
-  font-size: 0.9rem;
-}
+    .no-changes {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--green);
+      font-size: 0.9rem;
+    }
 
-.no-changes .big { font-size: 2rem; margin-bottom: 0.5rem; }
+    .no-changes .big { font-size: 2rem; margin-bottom: 0.5rem; }
 
-/* ── Disclaimer ── */
-.disclaimer-card {
-  background: rgba(245,158,11,0.06);
-  border: 1px solid rgba(245,158,11,0.2);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  font-size: 0.78rem;
-  color: #a38d6a;
-  line-height: 1.6;
-  text-align: center;
-  animation: fadeUp 0.5s ease 0.4s both;
-}
+    /* ── Disclaimer ── */
+    .disclaimer-card {
+      background: rgba(245,158,11,0.06);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      font-size: 0.78rem;
+      color: #a38d6a;
+      line-height: 1.6;
+      text-align: center;
+      animation: fadeUp 0.5s ease 0.4s both;
+    }
 
-/* ── Try again button ── */
-.btn-wrap {
-  text-align: center;
-  margin-top: 2rem;
-  animation: fadeUp 0.5s ease 0.5s both;
-}
+    /* ── Try again button ── */
+    .btn-wrap {
+      text-align: center;
+      margin-top: 2rem;
+      animation: fadeUp 0.5s ease 0.5s both;
+    }
 
-.btn-back {
-  background: transparent;
-  border: 1.5px solid var(--border);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border-radius: 10px;
-  padding: 0.7rem 2rem;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  text-decoration: none;
-  display: inline-block;
-}
+    .btn-back {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 10px;
+      padding: 0.7rem 2rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
 
-.btn-back:hover {
-  border-color: var(--accent);
-  background: rgba(232,64,64,0.06);
-  color: var(--text);
-}
+    .btn-back:hover {
+      border-color: var(--accent);
+      background: rgba(232,64,64,0.06);
+      color: var(--text);
+    }
 
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-```
-
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
   <div class="container">
 
-```
-<a href="/" class="back">
-  <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-  Back to Assessment
-</a>
+    <a href="/" class="back">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      Back to Assessment
+    </a>
 
-<div class="result-header">
-  <h1>Your Risk Assessment</h1>
-  <p>Powered by Random Forest · Trained on 8,763 patient records</p>
-</div>
-
-<!-- Risk Card -->
-<div class="risk-card" id="riskCard">
-  <div class="risk-label">Heart Attack Risk Score</div>
-
-  <div class="gauge-wrap">
-    <svg class="gauge-svg" viewBox="0 0 200 110">
-      <!-- Track -->
-      <path class="gauge-track"
-        d="M 20 100 A 80 80 0 0 1 180 100"
-        pathLength="100"
-        stroke-dasharray="100"
-        stroke-dashoffset="0"
-      />
-      <!-- Fill -->
-      <path class="gauge-fill" id="gaugeFill"
-        d="M 20 100 A 80 80 0 0 1 180 100"
-        pathLength="100"
-        stroke-dasharray="100"
-        stroke-dashoffset="100"
-      />
-    </svg>
-    <div class="gauge-value">
-      <div class="gauge-pct" id="gaugePct">—</div>
-      <div class="gauge-sub">risk score</div>
+    <div class="result-header">
+      <h1>Your Risk Assessment</h1>
+      <p>Powered by Random Forest · Trained on 8,763 patient records</p>
     </div>
-  </div>
 
-  <div class="risk-verdict" id="riskVerdict">—</div>
-  <div class="risk-desc" id="riskDesc">—</div>
-</div>
+    <!-- Risk Card -->
+    <div class="risk-card" id="riskCard">
+      <div class="risk-label">Heart Attack Risk Score</div>
 
-<!-- Stats -->
-<div class="stats-row">
-  <div class="stat-card">
-    <div class="stat-val" id="statModel">Random Forest</div>
-    <div class="stat-label">Model Used</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-val">69.17%</div>
-    <div class="stat-label">Model Accuracy</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-val">8</div>
-    <div class="stat-label">Models Benchmarked</div>
-  </div>
-</div>
+      <div class="gauge-wrap">
+        <svg class="gauge-svg" viewBox="0 0 200 110">
+          <!-- Track -->
+          <path class="gauge-track"
+            d="M 20 100 A 80 80 0 0 1 180 100"
+            pathLength="100"
+            stroke-dasharray="100"
+            stroke-dashoffset="0"
+          />
+          <!-- Fill -->
+          <path class="gauge-fill" id="gaugeFill"
+            d="M 20 100 A 80 80 0 0 1 180 100"
+            pathLength="100"
+            stroke-dasharray="100"
+            stroke-dashoffset="100"
+          />
+        </svg>
+        <div class="gauge-value">
+          <div class="gauge-pct" id="gaugePct">—</div>
+          <div class="gauge-sub">risk score</div>
+        </div>
+      </div>
 
-<!-- Lifestyle Changes -->
-<div class="changes-card" id="changesCard">
-  <h3>
-    <span class="dot"></span>
-    Personalised Recommendations
-  </h3>
-  <div id="changesList">
-    <div class="no-changes">
-      <div class="big">✅</div>
-      Loading recommendations...
+      <div class="risk-verdict" id="riskVerdict">—</div>
+      <div class="risk-desc" id="riskDesc">—</div>
     </div>
-  </div>
-</div>
 
-<!-- Disclaimer -->
-<div class="disclaimer-card">
-  ⚕️ <strong>Medical Disclaimer:</strong> This prediction is for educational purposes only and does not constitute medical advice.
-  Please consult a qualified cardiologist or healthcare professional for any health concerns.
-</div>
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val" id="statModel">Random Forest</div>
+        <div class="stat-label">Model Used</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">69.17%</div>
+        <div class="stat-label">Model Accuracy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">8</div>
+        <div class="stat-label">Models Benchmarked</div>
+      </div>
+    </div>
 
-<div class="btn-wrap">
-  <a href="/" class="btn-back">← Run Another Assessment</a>
-</div>
-```
+    <!-- Lifestyle Changes -->
+    <div class="changes-card" id="changesCard">
+      <h3>
+        <span class="dot"></span>
+        Personalised Recommendations
+      </h3>
+      <div id="changesList">
+        <div class="no-changes">
+          <div class="big">✅</div>
+          Loading recommendations...
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer-card">
+      ⚕️ <strong>Medical Disclaimer:</strong> This prediction is for educational purposes only and does not constitute medical advice.
+      Please consult a qualified cardiologist or healthcare professional for any health concerns.
+    </div>
+
+    <div class="btn-wrap">
+      <a href="/" class="btn-back">← Run Another Assessment</a>
+    </div>
 
   </div>
 
@@ -465,6 +459,5 @@ body {
       `).join('');
     }
   </script>
-
 </body>
 </html>
