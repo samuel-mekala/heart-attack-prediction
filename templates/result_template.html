@@ -1,64 +1,470 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .semi-sphere {
-          width: 200px;
-          height: 100px;
-          border-radius: 100px 100px 0 0;
-          background: conic-gradient(
-            green 0% 33%,
-            yellow 33% 67%,
-            red 67% 100%
-          );
-        }
-      </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Risk Assessment — Heart Attack Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --surface: #111827;
+      --card: #1a2236;
+      --border: #1f2e47;
+      --accent: #e84040;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --text: #f0f4ff;
+      --muted: #8892a4;
+    }
+
+```
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(232,64,64,0.06) 0%, transparent 60%);
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* ── Back link ── */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--text); }
+.back svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* ── Header ── */
+.result-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  animation: fadeDown 0.5s ease both;
+}
+
+.result-header h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.result-header p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-top: 0.4rem;
+}
+
+/* ── Risk gauge card ── */
+.risk-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.5s ease 0.1s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.risk-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--risk-color, var(--accent));
+}
+
+.risk-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+/* ── Gauge ── */
+.gauge-wrap {
+  position: relative;
+  display: inline-block;
+  margin: 1rem 0;
+}
+
+.gauge-svg { width: 200px; height: 110px; }
+
+.gauge-track {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1);
+}
+
+.gauge-value {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.gauge-pct {
+  font-size: 2.8rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-family: 'DM Mono', monospace;
+}
+
+.gauge-sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+.risk-verdict {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.risk-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  line-height: 1.6;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Stats row ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.5s ease 0.2s both;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.stat-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+/* ── Lifestyle changes ── */
+.changes-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.5s ease 0.3s both;
+}
+
+.changes-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.changes-card h3 .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--yellow);
+  flex-shrink: 0;
+}
+
+.change-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.change-item:last-child { border-bottom: none; }
+
+.change-item .icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.no-changes {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--green);
+  font-size: 0.9rem;
+}
+
+.no-changes .big { font-size: 2rem; margin-bottom: 0.5rem; }
+
+/* ── Disclaimer ── */
+.disclaimer-card {
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 0.78rem;
+  color: #a38d6a;
+  line-height: 1.6;
+  text-align: center;
+  animation: fadeUp 0.5s ease 0.4s both;
+}
+
+/* ── Try again button ── */
+.btn-wrap {
+  text-align: center;
+  margin-top: 2rem;
+  animation: fadeUp 0.5s ease 0.5s both;
+}
+
+.btn-back {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 0.7rem 2rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-back:hover {
+  border-color: var(--accent);
+  background: rgba(232,64,64,0.06);
+  color: var(--text);
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+```
+
+  </style>
 </head>
 <body>
-    <div class="bg-blue-300 h-screen w-screen flex flex-col">
-        <div class="h-12 bg-slate-200 w-screen flex items-center justify-center text-3xl font-bold ">
-            <h1>Results</h1>
-        </div>
-        <div class="bg-yellow-200 w-screen flex-1 flex">
-            <div class="flex-[1_1_0%] flex items-center justify-center">
-                <!-- Add Doctor image here -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hospital w-2/3 h-2/3" viewBox="0 0 16 16">
-                    <path d="M8.5 5.034v1.1l.953-.55.5.867L9 7l.953.55-.5.866-.953-.55v1.1h-1v-1.1l-.953.55-.5-.866L7 7l-.953-.55.5-.866.953.55v-1.1h1ZM13.25 9a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5ZM13 11.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5Zm.25 1.75a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5Zm-11-4a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5A.25.25 0 0 0 3 9.75v-.5A.25.25 0 0 0 2.75 9h-.5Zm0 2a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5ZM2 13.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5Z"/>
-                    <path d="M5 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1V1Zm2 14h2v-3H7v3Zm3 0h1V3H5v12h1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3Zm0-14H6v1h4V1Zm2 7v7h3V8h-3Zm-8 7V8H1v7h3Z"/>
-                  </svg>
-            </div>
-            <div class="flex-[2_2_0%] bg-white p-2">
+  <div class="container">
 
-                <h1 class="p-2 text-xl">Health score is <span class="text-xl font-bold">{{data.Heart_attack_risk}}</span></h1>
-                <!-- Add meter here -->
-                {% if data.Heart_attack_risk > 0.75 %}
-                <span class="text-red-500 text-xl">You should consult a doctor immediately.</span>
-                {% elif data.Heart_attack_risk > 0.45  %}
-                <span class="text-yellow-400 text-xl"> You can improve your Heart health by following these suggestions</span>
-                {% else %}
-                <span class="text-green-400 text-xl"> You can improve your Heart health by following these suggestions</span>
-                {% endif %}
+```
+<a href="/" class="back">
+  <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Back to Assessment
+</a>
 
-                <br>
-                <br>
-                <br>
-                <div class="p-4">
-                    <h1 class="font-bold text-2xl p-2">Suggestions: </h1>
-                    <li>
-                        {% for item in data.Lifestyle_changes %}
-                            <ul>
-                                {{item}}
-                            </ul>
-                        {% endfor %}
-                    </li>
-                </div>
-            </div>
-        </div>
+<div class="result-header">
+  <h1>Your Risk Assessment</h1>
+  <p>Powered by Random Forest · Trained on 8,763 patient records</p>
+</div>
+
+<!-- Risk Card -->
+<div class="risk-card" id="riskCard">
+  <div class="risk-label">Heart Attack Risk Score</div>
+
+  <div class="gauge-wrap">
+    <svg class="gauge-svg" viewBox="0 0 200 110">
+      <!-- Track -->
+      <path class="gauge-track"
+        d="M 20 100 A 80 80 0 0 1 180 100"
+        pathLength="100"
+        stroke-dasharray="100"
+        stroke-dashoffset="0"
+      />
+      <!-- Fill -->
+      <path class="gauge-fill" id="gaugeFill"
+        d="M 20 100 A 80 80 0 0 1 180 100"
+        pathLength="100"
+        stroke-dasharray="100"
+        stroke-dashoffset="100"
+      />
+    </svg>
+    <div class="gauge-value">
+      <div class="gauge-pct" id="gaugePct">—</div>
+      <div class="gauge-sub">risk score</div>
     </div>
+  </div>
+
+  <div class="risk-verdict" id="riskVerdict">—</div>
+  <div class="risk-desc" id="riskDesc">—</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-val" id="statModel">Random Forest</div>
+    <div class="stat-label">Model Used</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">69.17%</div>
+    <div class="stat-label">Model Accuracy</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">8</div>
+    <div class="stat-label">Models Benchmarked</div>
+  </div>
+</div>
+
+<!-- Lifestyle Changes -->
+<div class="changes-card" id="changesCard">
+  <h3>
+    <span class="dot"></span>
+    Personalised Recommendations
+  </h3>
+  <div id="changesList">
+    <div class="no-changes">
+      <div class="big">✅</div>
+      Loading recommendations...
+    </div>
+  </div>
+</div>
+
+<!-- Disclaimer -->
+<div class="disclaimer-card">
+  ⚕️ <strong>Medical Disclaimer:</strong> This prediction is for educational purposes only and does not constitute medical advice.
+  Please consult a qualified cardiologist or healthcare professional for any health concerns.
+</div>
+
+<div class="btn-wrap">
+  <a href="/" class="btn-back">← Run Another Assessment</a>
+</div>
+```
+
+  </div>
+
+  <script>
+    // Read result from Flask template variable
+    const data = {{ data | tojson }};
+    const risk  = data.Heart_attack_risk || 0;
+    const changes = data.Lifestyle_changes || [];
+
+    const pct = Math.round(risk * 100);
+
+    // Determine risk level
+    let color, verdict, desc;
+    if (pct >= 70) {
+      color   = '#e84040';
+      verdict = '🔴 High Risk';
+      desc    = 'Your profile indicates a high risk of heart attack. Please consult a cardiologist as soon as possible and consider immediate lifestyle changes.';
+    } else if (pct >= 40) {
+      color   = '#f59e0b';
+      verdict = '🟡 Moderate Risk';
+      desc    = 'Your profile shows moderate risk factors. Consider proactive lifestyle improvements and schedule a health checkup.';
+    } else {
+      color   = '#22c55e';
+      verdict = '🟢 Low Risk';
+      desc    = 'Your profile indicates low heart attack risk. Keep maintaining your healthy lifestyle and continue regular health monitoring.';
+    }
+
+    // Apply color
+    document.getElementById('riskCard').style.setProperty('--risk-color', color);
+    document.getElementById('gaugeFill').style.stroke = color;
+    document.getElementById('gaugePct').style.color   = color;
+
+    // Animate gauge
+    document.getElementById('gaugePct').textContent    = pct + '%';
+    document.getElementById('riskVerdict').textContent = verdict;
+    document.getElementById('riskDesc').textContent    = desc;
+
+    setTimeout(() => {
+      document.getElementById('gaugeFill').style.strokeDashoffset = 100 - pct;
+    }, 100);
+
+    // Lifestyle changes
+    const icons = {
+      'smoke':    '🚭',
+      'weight':   '⚖️',
+      'BMI':      '⚖️',
+      'exercise': '🏃',
+      'eat':      '🥗',
+      'food':     '🥗',
+      'alcohol':  '🍷',
+      'sleep':    '😴',
+      'stress':   '🧘',
+    };
+
+    function getIcon(text) {
+      const lower = text.toLowerCase();
+      for (const [key, icon] of Object.entries(icons)) {
+        if (lower.includes(key)) return icon;
+      }
+      return '💡';
+    }
+
+    const list = document.getElementById('changesList');
+    if (changes.length === 0) {
+      list.innerHTML = `
+        <div class="no-changes">
+          <div class="big">✅</div>
+          Great news! No specific lifestyle changes recommended based on your profile.
+        </div>`;
+    } else {
+      list.innerHTML = changes.map(c => `
+        <div class="change-item">
+          <div class="icon">${getIcon(c)}</div>
+          <div>${c}</div>
+        </div>
+      `).join('');
+    }
+  </script>
 
 </body>
 </html>
