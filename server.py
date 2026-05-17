@@ -1,326 +1,159 @@
-# Updated server.py (Fully Fixed Version)
+# 🫀 Heart Attack Risk Prediction
 
-```python
-from flask import Flask, request, jsonify, render_template, session
-import pandas as pd
-import numpy as np
-import os
+> **ML Internship Project** · IntrainTech, Bangalore · Aug–Nov 2023
+> **Role:** Machine Learning Engineer Intern
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from imblearn.over_sampling import SMOTE
+[![Python](https://img.shields.io/badge/Python-3.10-blue?style=flat-square&logo=python)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.0-000000?style=flat-square&logo=flask)](https://flask.palletsprojects.com)
+[![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?style=flat-square&logo=powerbi)](Dashboard.pbix)
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?style=flat-square&logo=github-actions)](/.github/workflows/ci.yml)
+[![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-Render-46E3B7?style=flat-square)](https://heart-attack-prediction-2-ncao.onrender.com/)
 
-app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'fallback_secret')
+> 🚀 **[Try the Live Demo →](https://heart-attack-prediction-2-ncao.onrender.com/)**
 
-# =========================
-# LOAD DATA
-# =========================
+---
 
-file_path = 'heart_attack_prediction_dataset.csv'
-df = pd.read_csv(file_path)
+## 📌 What This Project Does
 
-# =========================
-# CLEAN DATA
-# =========================
+End-to-end heart attack risk prediction system — from raw clinical data to a **live Flask web application** and **Power BI dashboard**. Patients fill a form, the model predicts risk probability, and the app returns personalised lifestyle change recommendations.
 
-# Split blood pressure
+---
 
-df[['BP_systolic', 'BP_diastolic']] = (
-    df['Blood Pressure']
-    .str.split('/', expand=True)
-    .astype(int)
-)
+## 🏗️ System Architecture
 
-# Drop unnecessary columns
-
-df.drop(columns=[
-    'Patient ID',
-    'Blood Pressure',
-    'Country',
-    'Continent',
-    'Hemisphere'
-], inplace=True)
-
-# =========================
-# ENCODE CATEGORICAL DATA
-# =========================
-
-categorical_cols = [
-    'Sex',
-    'Diet',
-    'Diabetes',
-    'Family History',
-    'Smoking',
-    'Obesity',
-    'Alcohol Consumption',
-    'Previous Heart Problems',
-    'Medication Use'
-]
-
-label_encoders = {}
-
-for col in categorical_cols:
-    le = LabelEncoder()
-    df[col] = le.fit_transform(df[col])
-    label_encoders[col] = le
-
-# =========================
-# FEATURE ORDER (VERY IMPORTANT)
-# =========================
-
-FEATURE_COLUMNS = [
-    'Age',
-    'Sex',
-    'Cholesterol',
-    'Heart Rate',
-    'Diabetes',
-    'Family History',
-    'Smoking',
-    'Obesity',
-    'Alcohol Consumption',
-    'Exercise Hours Per Week',
-    'Diet',
-    'Previous Heart Problems',
-    'Medication Use',
-    'Stress Level',
-    'BMI',
-    'Triglycerides',
-    'Physical Activity Days Per Week',
-    'Sleep Hours Per Day',
-    'BP_systolic',
-    'BP_diastolic'
-]
-
-X = df[FEATURE_COLUMNS]
-y = df['Heart Attack Risk']
-
-# =========================
-# TRAIN TEST SPLIT
-# =========================
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42,
-    stratify=y
-)
-
-# =========================
-# APPLY SMOTE ONLY ON TRAIN
-# =========================
-
-smote = SMOTE(random_state=50)
-X_train, y_train = smote.fit_resample(X_train, y_train)
-
-# =========================
-# MODEL
-# =========================
-
-model = RandomForestClassifier(
-    n_estimators=300,
-    max_depth=10,
-    min_samples_split=5,
-    min_samples_leaf=2,
-    class_weight='balanced',
-    random_state=17,
-    n_jobs=-1
-)
-
-model.fit(X_train, y_train)
-
-# =========================
-# ACCURACY
-# =========================
-
-pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, pred)
-
-print(f'Accuracy: {accuracy * 100:.2f}%')
-
-# =========================
-# RECOMMENDATION FUNCTION
-# =========================
-
-def determine_lifestyle_changes(data, risk_prob):
-    changes = []
-
-    if data['Smoking'] == 1:
-        changes.append('Quit smoking')
-
-    if data['Alcohol Consumption'] == 1:
-        changes.append('Reduce alcohol consumption')
-
-    if data['Exercise Hours Per Week'] < 3:
-        changes.append('Increase exercise hours')
-
-    if data['BMI'] > 25:
-        changes.append('Maintain healthy body weight')
-
-    if data['Sleep Hours Per Day'] < 7:
-        changes.append('Improve sleep schedule')
-
-    if data['Stress Level'] > 6:
-        changes.append('Reduce stress levels')
-
-    if risk_prob < 0.35:
-        risk_level = 'Low Risk'
-    elif risk_prob < 0.65:
-        risk_level = 'Moderate Risk'
-    else:
-        risk_level = 'High Risk'
-
-    return {
-        'Heart_attack_risk': round(float(risk_prob * 100), 2),
-        'Risk_Level': risk_level,
-        'Lifestyle_changes': changes
-    }
-
-# =========================
-# ROUTES
-# =========================
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route('/predict', methods=['POST'])
-def predict():
-
-    try:
-        # =========================
-        # VALIDATION
-        # =========================
-
-        required_fields = [
-            'Age',
-            'Sex',
-            'Cholesterol',
-            'Heart_Rate'
-        ]
-
-        for field in required_fields:
-            if not request.form.get(field):
-                return jsonify({'error': f'{field} is required'}), 400
-
-        # =========================
-        # INPUT DATA
-        # =========================
-
-        new_person = {
-            'Age': int(request.form.get('Age')),
-            'Sex': label_encoders['Sex'].transform([
-                request.form.get('Sex')
-            ])[0],
-            'Cholesterol': int(request.form.get('Cholesterol')),
-            'Heart Rate': int(request.form.get('Heart_Rate')),
-            'Diabetes': label_encoders['Diabetes'].transform([
-                request.form.get('Diabetes')
-            ])[0],
-            'Family History': label_encoders['Family History'].transform([
-                request.form.get('Family_History')
-            ])[0],
-            'Smoking': label_encoders['Smoking'].transform([
-                request.form.get('Smoking')
-            ])[0],
-            'Obesity': label_encoders['Obesity'].transform([
-                request.form.get('Obesity')
-            ])[0],
-            'Alcohol Consumption': label_encoders['Alcohol Consumption'].transform([
-                request.form.get('Alcohol_Consumption')
-            ])[0],
-            'Exercise Hours Per Week': float(request.form.get('Exercise_Hours_Per_Week')),
-            'Diet': label_encoders['Diet'].transform([
-                request.form.get('Diet')
-            ])[0],
-            'Previous Heart Problems': label_encoders['Previous Heart Problems'].transform([
-                request.form.get('Previous_Heart_Problems')
-            ])[0],
-            'Medication Use': label_encoders['Medication Use'].transform([
-                request.form.get('Medication_Use')
-            ])[0],
-            'Stress Level': int(request.form.get('Stress_Level')),
-            'BMI': float(request.form.get('BMI')),
-            'Triglycerides': int(request.form.get('Triglycerides')),
-            'Physical Activity Days Per Week': int(request.form.get('Physical_Activity_Days_Per_Week')),
-            'Sleep Hours Per Day': float(request.form.get('Sleep_Hours_Per_Day')),
-            'BP_systolic': int(request.form.get('BP_systolic')),
-            'BP_diastolic': int(request.form.get('BP_diastolic'))
-        }
-
-        # =========================
-        # FIXED FEATURE ORDER
-        # =========================
-
-        x = np.array([[new_person[col] for col in FEATURE_COLUMNS]])
-
-        print('FEATURE ORDER:', FEATURE_COLUMNS)
-        print('INPUT VALUES:', x)
-
-        # =========================
-        # PREDICTION
-        # =========================
-
-        risk_prob = float(model.predict_proba(x)[:, 1][0])
-
-        result = determine_lifestyle_changes(new_person, risk_prob)
-
-        session['result'] = result
-
-        return jsonify(result)
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/result')
-def result():
-
-    result_data = session.get('result', None)
-
-    if not result_data:
-        return render_template('result.html', error='No prediction found')
-
-    return render_template(
-        'result.html',
-        risk=result_data['Heart_attack_risk'],
-        risk_level=result_data['Risk_Level'],
-        lifestyle_changes=result_data['Lifestyle_changes'],
-        accuracy=round(accuracy * 100, 2)
-    )
-
-# =========================
-# MAIN
-# =========================
-
-if __name__ == '__main__':
-    app.run(debug=True)
+```
+Patient fills web form (test.html)
+            │
+            ▼ POST /predict
+┌──────────────────────────────┐
+│         server.py            │
+│                              │
+│  1. Parse form inputs        │
+│  2. Scale with StandardScaler│
+│  3. model.predict_proba()    │
+│  4. determine_lifestyle_     │
+│     changes(prob, inputs)    │
+│  5. Return JSON response     │
+└──────────────┬───────────────┘
+               │
+               ▼
+    result_template.html
+    • Risk probability score
+    • High / Low risk label
+    • Personalised recommendations
+      (smoking, BMI, exercise,
+       diet, sleep, stress)
 ```
 
-# IMPORTANT NOTES
+---
 
-You MUST also ensure your HTML form field names match exactly:
+## 📊 Model Benchmark (10-Fold Cross-Validation)
 
-Examples:
+| Model | Accuracy |
+|---|---|
+| **Random Forest** ✅ | **69.17%** |
+| Light Gradient Boost | ~67% |
+| SVM | ~65% |
+| XGBoost | ~64% |
+| KNN | ~63% |
+| Logistic Regression | ~62% |
+| Decision Tree | ~58% |
+| Naive Bayes | ~57% |
 
-```html
-name="Heart_Rate"
-name="Family_History"
-name="Alcohol_Consumption"
+**Random Forest selected** — best cross-validated accuracy across 10 folds. Evaluated using Accuracy, F1-Score, ROC-AUC, Precision, and Recall.
+
+---
+
+## 🔑 Key Engineering Decisions
+
+**Why SMOTE before training?**
+Heart attack risk classes are imbalanced. SMOTE generates synthetic minority samples preserving feature distributions, preventing the model from always predicting the majority class.
+
+**Why StandardScaler?**
+Features like Cholesterol (100–300), BMI (15–45), and Heart Rate (60–100) have very different ranges. Scaling ensures no single feature dominates distance-based calculations.
+
+**Why lifestyle recommendations?**
+A risk score alone isn't actionable. The recommendations engine maps specific input values (Smoking=1, BMI>25, Exercise<1.25h/week) to concrete changes — making the app clinically useful.
+
+**Why split Blood Pressure?**
+The raw dataset stores BP as "120/80" string. Splitting into systolic and diastolic gives the model two meaningful numeric features instead of one useless string.
+
+---
+
+## 🗂️ Dataset
+
+**Heart Attack Risk Prediction Dataset** — 8,763 patient records, 25 features:
+
+| Category | Features |
+|---|---|
+| Demographics | Age, Sex, Country, Continent, Hemisphere |
+| Vitals | BP (Systolic/Diastolic split), Heart Rate, Cholesterol, BMI, Triglycerides |
+| Lifestyle | Smoking, Alcohol, Exercise Hrs/Week, Diet, Sedentary Hrs, Stress Level, Sleep Hrs |
+| Medical History | Diabetes, Family History, Previous Heart Problems, Obesity, Medication Use |
+| Target | Heart Attack Risk (0 = Low, 1 = High) |
+
+---
+
+## 🛠️ Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=flat-square&logo=powerbi&logoColor=black)
+
+---
+
+## 📁 Project Structure
+
+```
+heart-attack-prediction/
+├── .github/
+│   └── workflows/
+│       └── ci.yml                       # GitHub Actions CI
+├── server.py                            # Flask app — trains model + serves predictions
+├── 1.ipynb                              # Full EDA + 8-model benchmark notebook
+├── heart_attack_prediction_dataset.csv  # Dataset (8,763 patient records)
+├── Dashboard.pbix                       # Power BI dashboard
+├── templates/
+│   ├── test.html                        # Patient input form
+│   └── result_template.html             # Risk result + lifestyle suggestions
+├── requirements.txt
+└── README.md
 ```
 
-because Flask reads using:
+---
 
-```python
-request.form.get('Heart_Rate')
+## 🚀 How to Run
+
+```bash
+# Clone the repo
+git clone https://github.com/samuel-mekala/heart-attack-prediction.git
+cd heart-attack-prediction
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Flask app
+# (model trains automatically on startup — ~10-15 seconds)
+python server.py
+
+# Open browser → http://localhost:5000
+
+# To explore EDA and all 8 models:
+jupyter notebook 1.ipynb
 ```
 
-If names mismatch even slightly:
+---
 
-* wrong values
-* empty values
-* incorrect predictions
+## 🔮 Future Work
 
-can happen.
+- [ ] Deploy on Render for public access
+- [ ] Add SHAP explainability — show which features drive each prediction
+- [ ] REST API endpoint for hospital management system integration
+- [ ] Patient history tracking with database backend
+- [ ] Retrain pipeline with new patient data
+
+---
+
+*IntrainTech Internship · Bangalore · Aug–Nov 2023*
