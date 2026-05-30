@@ -460,7 +460,16 @@
       xhr.open('POST', '/predict', true);
 
       xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.readyState === XMLHttpRequest.DONE)
+        {
+          if(xhr.status===200){
+            window.location.href="/result";
+          }
+          else{
+            alert("Prediction failed");
+          }
+        }
+        {
           window.location.href = '/result';
         }
       };
