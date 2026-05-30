@@ -107,18 +107,23 @@ The raw dataset stores BP as "120/80" string. Splitting into systolic and diasto
 
 ```
 heart-attack-prediction/
-├── .github/
-│   └── workflows/
-│       └── ci.yml                       # GitHub Actions CI
-├── server.py                            # Flask app — trains model + serves predictions
-├── 1.ipynb                              # Full EDA + 8-model benchmark notebook
-├── heart_attack_prediction_dataset.csv  # Dataset (8,763 patient records)
-├── Dashboard.pbix                       # Power BI dashboard
-├── templates/
-│   ├── test.html                        # Patient input form
-│   └── result_template.html             # Risk result + lifestyle suggestions
+│
+├── server.py
+├── train_model.py
+├── model.pkl
+├── scaler.pkl
 ├── requirements.txt
-└── README.md
+├── render.yaml
+├── .env.example
+├── README.md
+│
+├── templates/
+│   ├── test.html
+│   └── result_template.html
+│
+└── .github/
+    └── workflows/
+        └── ci.yml
 ```
 
 ---
