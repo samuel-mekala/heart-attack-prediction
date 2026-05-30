@@ -91,6 +91,9 @@ def predict():
             'Sex':                      int(request.form.get('sex')),
             'Diet':                     int(request.form.get('Diet')),
         }
+        if not 18 <= new_person["Age"] <= 100: raise ValueError("Invalid age")
+        if not 10 <= new_person["BMI"] <= 60: raise ValueError("Invalid BMI")
+        if not 40 <= new_person["Heart_Rate"] <= 220: raise ValueError("Invalid heart rate")
 
         x            = dicti_vals(new_person)
         x_scaled     = scaler.transform(x)
@@ -100,7 +103,8 @@ def predict():
         # FIX: Store in session instead of global variable
         session['result'] = json.dumps(result)
 
-        print(f"Prediction: {risk_prob:.4f} | Changes: {result['Lifestyle_changes']}")
+        logging.basicConfig(level=logging.INFO)
+        logging.info(f"Prediction: {risk_prob:.4f} | Changes: {result['Lifestyle_changes']}")
         return jsonify(result)
 
     except Exception as e:
