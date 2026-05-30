@@ -1,6 +1,4 @@
 from flask import Flask, request, jsonify, render_template, redirect, session
-import joblib
-import logging
 import os
 import json
 import pandas as pd
@@ -13,17 +11,69 @@ import warnings
 warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
-app.secret_key = os.getenv(
-    "SECRET_KEY",
-    "temporary-dev-secret"
-)
+app.secret_key = 'heart_attack_predictor_2024'  # needed for session
+
 # ─── Load Dataset ─────────────────────────────────────────────────────────────
 BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, 'heart_attack_prediction_dataset.csv')
 
-model = joblib.load("model.pkl")
-scaler = joblib.load("scaler.pkl")
+df = pd.read_csv(DATA_PATH)
+df.columns = [c.strip().replace(' ', '_') for c in df.columns]
+df = df.drop('Patient_ID', axis=1)
 
+df['BP_systolic']  = df['Blood_Pressure'].apply(lambda x: x.split("/")[0])
+df['BP_diastolic'] = df['Blood_Pressure'].apply(lambda x: x.split("/")[1])
+
+df = df[['Age', 'Sex', 'Cholesterol', 'BP_systolic', 'BP_diastolic',
+         'Heart_Rate', 'Diabetes', 'Family_History', 'Smoking', 'Obesity',
+         'Alcohol_Consumption', 'Exercise_Hours_Per_Week', 'Diet',
+         'Previous_Heart_Problems', 'Medication_Use', 'Stress_Level',
+         'Sedentary_Hours_Per_Day', 'Income', 'BMI', 'Triglycerides',
+         'Physical_Activity_Days_Per_Week', 'Sleep_Hours_Per_Day',
+         'Country', 'Continent', 'Hemisphere', 'Heart_Attack_Risk']]
+
+df['BP_systolic']  = pd.to_numeric(df['BP_systolic'])
+df['BP_diastolic'] = pd.to_numeric(df['BP_diastolic'])
+
+df2 = df[['Age', 'Sex', 'Cholesterol', 'BP_systolic', 'BP_diastolic',
+          'Heart_Rate', 'Diabetes', 'Family_History', 'Smoking', 'Obesity',
+          'Alcohol_Consumption', 'Exercise_Hours_Per_Week', 'Diet',
+          'Previous_Heart_Problems', 'Medication_Use', 'Stress_Level',
+          'Sedentary_Hours_Per_Day', 'Income', 'BMI', 'Triglycerides',
+          'Physical_Activity_Days_Per_Week', 'Sleep_Hours_Per_Day',
+          'Heart_Attack_Risk']].copy()
+
+df3 = df2[['Sex', 'Diet']].copy()
+le  = LabelEncoder()
+label_encoder = {}
+for column in df3.columns:
+    label_encoder[column] = le
+    df3[column] = label_encoder[column].fit_transform(df2[column])
+
+df2 = df2.drop(['Sex', 'Diet', 'Income'], axis=1)
+df2 = pd.concat([df2, df3], axis=1)
+
+# ─── Features & Model ─────────────────────────────────────────────────────────
+X = df2[['Age', 'Cholesterol', 'BP_systolic', 'BP_diastolic', 'Heart_Rate',
+         'Diabetes', 'Family_History', 'Smoking', 'Obesity',
+         'Alcohol_Consumption', 'Exercise_Hours_Per_Week',
+         'Previous_Heart_Problems', 'Medication_Use',
+         'BMI', 'Triglycerides', 'Sleep_Hours_Per_Day', 'Sex', 'Diet']]
+y = df2[['Heart_Attack_Risk']]
+
+smote = SMOTE(random_state=50)
+X_res, y_res = smote.fit_resample(X, y)
+
+scaler   = StandardScaler()
+X_scaled = scaler.fit_transform(X_res)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y_res, test_size=0.2, random_state=42)
+
+y_train = np.ravel(y_train)
+y_test  = np.ravel(y_test)
+
+model = RandomForestClassifier(random_state=17)
 model.fit(X_train, y_train)
 
 from sklearn.metrics import accuracy_score
@@ -82,7 +132,7 @@ def predict():
             'Smoking':                  int(request.form.get('Smoking')),
             'Obesity':                  int(request.form.get('Obesity')),
             'Alcohol_Consumption':      int(request.form.get('Alcohol_Consumption')),
-            'Exercise_Hours_Per_Week':  float(request.form.get('Exercise_Hours_Per_Week')),
+            'Exercise_Hours_Per_Week':  int(request.form.get('Exercise_Hours_Per_Week')),
             'Previous_Heart_Problems':  int(request.form.get('Previous_Heart_Problems')),
             'Medication_Use':           int(request.form.get('Medication_Use')),
             'BMI':                    float(request.form.get('BMI')),
@@ -91,9 +141,6 @@ def predict():
             'Sex':                      int(request.form.get('sex')),
             'Diet':                     int(request.form.get('Diet')),
         }
-        if not 18 <= new_person["Age"] <= 100: raise ValueError("Invalid age")
-        if not 10 <= new_person["BMI"] <= 60: raise ValueError("Invalid BMI")
-        if not 40 <= new_person["Heart_Rate"] <= 220: raise ValueError("Invalid heart rate")
 
         x            = dicti_vals(new_person)
         x_scaled     = scaler.transform(x)
@@ -103,8 +150,7 @@ def predict():
         # FIX: Store in session instead of global variable
         session['result'] = json.dumps(result)
 
-        logging.basicConfig(level=logging.INFO)
-        logging.info(f"Prediction: {risk_prob:.4f} | Changes: {result['Lifestyle_changes']}")
+        print(f"Prediction: {risk_prob:.4f} | Changes: {result['Lifestyle_changes']}")
         return jsonify(result)
 
     except Exception as e:
