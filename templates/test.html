@@ -319,7 +319,7 @@
         </div>
         <div class="field">
           <label>Cholesterol</label>
-          <input type="number" id="Cholesterol" name="Cholesterol" min="50" max="600" placeholder="e.g. 200" required />
+          <input type="number" id="Cholesterol" name="Cholesterol" placeholder="e.g. 200" required />
           <span class="hint">mg/dL · normal: &lt;200</span>
         </div>
         <div class="field">
@@ -329,12 +329,12 @@
         </div>
         <div class="field">
           <label>Heart Rate</label>
-          <input type="number" id="Heart_Rate" name="Heart_Rate" min="40" max="220" placeholder="e.g. 72" required />
+          <input type="number" id="Heart_Rate" name="Heart_Rate" placeholder="e.g. 72" required />
           <span class="hint">bpm · normal: 60–100</span>
         </div>
         <div class="field">
           <label>BMI</label>
-          <input type="number" step="0.1" id="BMI" name="BMI" min="10" max="60" placeholder="e.g. 24.5" required />
+          <input type="number" step="0.1" id="BMI" name="BMI" placeholder="e.g. 24.5" required />
           <span class="hint">normal: 18.5–24.9</span>
         </div>
       </div>
@@ -460,16 +460,7 @@
       xhr.open('POST', '/predict', true);
 
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE)
-        {
-          if(xhr.status===200){
-            window.location.href="/result";
-          }
-          else{
-            alert("Prediction failed");
-          }
-        }
-        {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
           window.location.href = '/result';
         }
       };
