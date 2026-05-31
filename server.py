@@ -11,9 +11,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
-app.secret_key = 'heart_attack_predictor_2024'  # needed for session
+app.secret_key = 'heart_attack_predictor_2024'
 
-# ─── Load Dataset ─────────────────────────────────────────────────────────────
 BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, 'heart_attack_prediction_dataset.csv')
 
@@ -53,7 +52,6 @@ for column in df3.columns:
 df2 = df2.drop(['Sex', 'Diet', 'Income'], axis=1)
 df2 = pd.concat([df2, df3], axis=1)
 
-# ─── Features & Model ─────────────────────────────────────────────────────────
 X = df2[['Age', 'Cholesterol', 'BP_systolic', 'BP_diastolic', 'Heart_Rate',
          'Diabetes', 'Family_History', 'Smoking', 'Obesity',
          'Alcohol_Consumption', 'Exercise_Hours_Per_Week',
@@ -79,7 +77,6 @@ model.fit(X_train, y_train)
 from sklearn.metrics import accuracy_score
 print(f"Model trained. Accuracy: {accuracy_score(y_test, model.predict(X_test))*100:.2f}%")
 
-# ─── Helpers ──────────────────────────────────────────────────────────────────
 def dicti_vals(dicti):
     return np.array([list(dicti.values())])
 
@@ -103,14 +100,12 @@ def determine_lifestyle_changes(risk_prob, new_person):
         'Lifestyle_changes': changes
     }
 
-# ─── Routes ───────────────────────────────────────────────────────────────────
 @app.route('/')
 def index():
     return render_template('test.html')
 
 @app.route('/result')
 def resultPage():
-    # FIX: Read result from session, not global variable
     result_json = session.get('result', None)
     if result_json:
         data = json.loads(result_json)
@@ -141,18 +136,13 @@ def predict():
             'Sex':                      int(request.form.get('sex')),
             'Diet':                     int(request.form.get('Diet')),
         }
-
-        x            = dicti_vals(new_person)
-        x_scaled     = scaler.transform(x)
-        risk_prob    = float(model.predict_proba(x_scaled)[:, 1][0])
-        result       = determine_lifestyle_changes(risk_prob, new_person)
-
-        # FIX: Store in session instead of global variable
+        x         = dicti_vals(new_person)
+        x_scaled  = scaler.transform(x)
+        risk_prob = float(model.predict_proba(x_scaled)[:, 1][0])
+        result    = determine_lifestyle_changes(risk_prob, new_person)
         session['result'] = json.dumps(result)
-
-        print(f"Prediction: {risk_prob:.4f} | Changes: {result['Lifestyle_changes']}")
+        print(f"Prediction: {risk_prob:.4f}")
         return jsonify(result)
-
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({'error': str(e)}), 400
