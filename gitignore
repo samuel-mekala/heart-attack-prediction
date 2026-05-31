@@ -27,6 +27,7 @@ ENV/
 # Saved models (too large for GitHub)
 *.h5
 *.hdf5
+*.pkl
 *.pt
 *.pth
 *.onnx
