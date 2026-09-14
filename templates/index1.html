@@ -278,7 +278,7 @@
     <!-- Input Form Section -->
     <div class="form-section">
       <h3>Patient Attributes Form</h3>
-      <form action="{{ url_for('predict') }}" method="post">
+      <form action="{{ url_for('predict') }}" method="post" autocomplete="off">
         
         <div class="form-grid">
           
@@ -290,20 +290,20 @@
           <div class="input-group">
             <label for="sex">Sex</label>
             <select id="sex" name="sex" required>
-              <option value="" disabled {% if not form_data.get('sex') %}selected{% endif %}>Select Sex</option>
-              <option value="1" {% if form_data.get('sex') == '1' %}selected{% endif %}>Male (1)</option>
-              <option value="0" {% if form_data.get('sex') == '0' %}selected{% endif %}>Female (0)</option>
+              <option value="" disabled {% if not form_data.get('sex') and form_data.get('sex') != 0 %}selected{% endif %}>Select Sex</option>
+              <option value="1" {% if form_data.get('sex') == '1' or form_data.get('sex') == 1 %}selected{% endif %}>Male (1)</option>
+              <option value="0" {% if form_data.get('sex') == '0' or form_data.get('sex') == 0 %}selected{% endif %}>Female (0)</option>
             </select>
           </div>
 
           <div class="input-group">
             <label for="cp">Chest Pain Type (CP)</label>
             <select id="cp" name="cp" required>
-              <option value="" disabled {% if not form_data.get('cp') %}selected{% endif %}>Select Chest Pain Type</option>
-              <option value="0" {% if form_data.get('cp') == '0' %}selected{% endif %}>0: Typical Angina</option>
-              <option value="1" {% if form_data.get('cp') == '1' %}selected{% endif %}>1: Atypical Angina</option>
-              <option value="2" {% if form_data.get('cp') == '2' %}selected{% endif %}>2: Non-anginal Pain</option>
-              <option value="3" {% if form_data.get('cp') == '3' %}selected{% endif %}>3: Asymptomatic</option>
+              <option value="" disabled {% if not form_data.get('cp') and form_data.get('cp') != 0 %}selected{% endif %}>Select Chest Pain Type</option>
+              <option value="0" {% if form_data.get('cp') == '0' or form_data.get('cp') == 0 %}selected{% endif %}>0: Typical Angina</option>
+              <option value="1" {% if form_data.get('cp') == '1' or form_data.get('cp') == 1 %}selected{% endif %}>1: Atypical Angina</option>
+              <option value="2" {% if form_data.get('cp') == '2' or form_data.get('cp') == 2 %}selected{% endif %}>2: Non-anginal Pain</option>
+              <option value="3" {% if form_data.get('cp') == '3' or form_data.get('cp') == 3 %}selected{% endif %}>3: Asymptomatic</option>
             </select>
           </div>
 
@@ -320,19 +320,19 @@
           <div class="input-group">
             <label for="fbs">Fasting Blood Sugar > 120</label>
             <select id="fbs" name="fbs" required>
-              <option value="" disabled {% if not form_data.get('fbs') %}selected{% endif %}>Select Sugar Level</option>
-              <option value="0" {% if form_data.get('fbs') == '0' %}selected{% endif %}>No (0)</option>
-              <option value="1" {% if form_data.get('fbs') == '1' %}selected{% endif %}>Yes (1)</option>
+              <option value="" disabled {% if not form_data.get('fbs') and form_data.get('fbs') != 0 %}selected{% endif %}>Select Sugar Level</option>
+              <option value="0" {% if form_data.get('fbs') == '0' or form_data.get('fbs') == 0 %}selected{% endif %}>No (0)</option>
+              <option value="1" {% if form_data.get('fbs') == '1' or form_data.get('fbs') == 1 %}selected{% endif %}>Yes (1)</option>
             </select>
           </div>
 
           <div class="input-group">
             <label for="restecg">Resting ECG</label>
             <select id="restecg" name="restecg" required>
-              <option value="" disabled {% if not form_data.get('restecg') %}selected{% endif %}>Select ECG Result</option>
-              <option value="0" {% if form_data.get('restecg') == '0' %}selected{% endif %}>0: Normal</option>
-              <option value="1" {% if form_data.get('restecg') == '1' %}selected{% endif %}>1: ST-T Wave Abnormality</option>
-              <option value="2" {% if form_data.get('restecg') == '2' %}selected{% endif %}>2: Left Ventricular Hypertrophy</option>
+              <option value="" disabled {% if not form_data.get('restecg') and form_data.get('restecg') != 0 %}selected{% endif %}>Select ECG Result</option>
+              <option value="0" {% if form_data.get('restecg') == '0' or form_data.get('restecg') == 0 %}selected{% endif %}>0: Normal</option>
+              <option value="1" {% if form_data.get('restecg') == '1' or form_data.get('restecg') == 1 %}selected{% endif %}>1: ST-T Wave Abnormality</option>
+              <option value="2" {% if form_data.get('restecg') == '2' or form_data.get('restecg') == 2 %}selected{% endif %}>2: Left Ventricular Hypertrophy</option>
             </select>
           </div>
 
@@ -344,9 +344,9 @@
           <div class="input-group">
             <label for="exang">Exercise Induced Angina</label>
             <select id="exang" name="exang" required>
-              <option value="" disabled {% if not form_data.get('exang') %}selected{% endif %}>Select Exercise Angina</option>
-              <option value="0" {% if form_data.get('exang') == '0' %}selected{% endif %}>No (0)</option>
-              <option value="1" {% if form_data.get('exang') == '1' %}selected{% endif %}>Yes (1)</option>
+              <option value="" disabled {% if not form_data.get('exang') and form_data.get('exang') != 0 %}selected{% endif %}>Select Exercise Angina</option>
+              <option value="0" {% if form_data.get('exang') == '0' or form_data.get('exang') == 0 %}selected{% endif %}>No (0)</option>
+              <option value="1" {% if form_data.get('exang') == '1' or form_data.get('exang') == 1 %}selected{% endif %}>Yes (1)</option>
             </select>
           </div>
 
@@ -358,32 +358,32 @@
           <div class="input-group">
             <label for="slope">ST Segment Slope</label>
             <select id="slope" name="slope" required>
-              <option value="" disabled {% if not form_data.get('slope') %}selected{% endif %}>Select ST Slope</option>
-              <option value="0" {% if form_data.get('slope') == '0' %}selected{% endif %}>0: Upsloping</option>
-              <option value="1" {% if form_data.get('slope') == '1' %}selected{% endif %}>1: Flat</option>
-              <option value="2" {% if form_data.get('slope') == '2' %}selected{% endif %}>2: Downsloping</option>
+              <option value="" disabled {% if not form_data.get('slope') and form_data.get('slope') != 0 %}selected{% endif %}>Select ST Slope</option>
+              <option value="0" {% if form_data.get('slope') == '0' or form_data.get('slope') == 0 %}selected{% endif %}>0: Upsloping</option>
+              <option value="1" {% if form_data.get('slope') == '1' or form_data.get('slope') == 1 %}selected{% endif %}>1: Flat</option>
+              <option value="2" {% if form_data.get('slope') == '2' or form_data.get('slope') == 2 %}selected{% endif %}>2: Downsloping</option>
             </select>
           </div>
 
           <div class="input-group">
             <label for="ca">Major Vessels (0-4)</label>
             <select id="ca" name="ca" required>
-              <option value="" disabled {% if not form_data.get('ca') %}selected{% endif %}>Select Major Vessels</option>
-              <option value="0" {% if form_data.get('ca') == '0' %}selected{% endif %}>0</option>
-              <option value="1" {% if form_data.get('ca') == '1' %}selected{% endif %}>1</option>
-              <option value="2" {% if form_data.get('ca') == '2' %}selected{% endif %}>2</option>
-              <option value="3" {% if form_data.get('ca') == '3' %}selected{% endif %}>3</option>
-              <option value="4" {% if form_data.get('ca') == '4' %}selected{% endif %}>4</option>
+              <option value="" disabled {% if not form_data.get('ca') and form_data.get('ca') != 0 %}selected{% endif %}>Select Major Vessels</option>
+              <option value="0" {% if form_data.get('ca') == '0' or form_data.get('ca') == 0 %}selected{% endif %}>0</option>
+              <option value="1" {% if form_data.get('ca') == '1' or form_data.get('ca') == 1 %}selected{% endif %}>1</option>
+              <option value="2" {% if form_data.get('ca') == '2' or form_data.get('ca') == 2 %}selected{% endif %}>2</option>
+              <option value="3" {% if form_data.get('ca') == '3' or form_data.get('ca') == 3 %}selected{% endif %}>3</option>
+              <option value="4" {% if form_data.get('ca') == '4' or form_data.get('ca') == 4 %}selected{% endif %}>4</option>
             </select>
           </div>
 
           <div class="input-group" style="grid-column: span 2;">
             <label for="thal">Thalassemia (Thal)</label>
             <select id="thal" name="thal" required>
-              <option value="" disabled {% if not form_data.get('thal') %}selected{% endif %}>Select Thalassemia</option>
-              <option value="1" {% if form_data.get('thal') == '1' %}selected{% endif %}>1: Normal</option>
-              <option value="2" {% if form_data.get('thal') == '2' %}selected{% endif %}>2: Fixed Defect</option>
-              <option value="3" {% if form_data.get('thal') == '3' %}selected{% endif %}>3: Reversible Defect</option>
+              <option value="" disabled {% if not form_data.get('thal') and form_data.get('thal') != 0 %}selected{% endif %}>Select Thalassemia</option>
+              <option value="1" {% if form_data.get('thal') == '1' or form_data.get('thal') == 1 %}selected{% endif %}>1: Normal</option>
+              <option value="2" {% if form_data.get('thal') == '2' or form_data.get('thal') == 2 %}selected{% endif %}>2: Fixed Defect</option>
+              <option value="3" {% if form_data.get('thal') == '3' or form_data.get('thal') == 3 %}selected{% endif %}>3: Reversible Defect</option>
             </select>
           </div>
 
