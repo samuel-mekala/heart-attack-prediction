@@ -11,7 +11,7 @@
     :root {
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --card-bg: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.96);
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border-color: #cbd5e1;
@@ -25,20 +25,63 @@
     }
 
     body {
-      background: #0b192c;
-      /* Medical ECG Pulse Waveform Background Pattern */
-      background-image: 
-        radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(13, 148, 136, 0.15) 0%, transparent 40%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='200' viewBox='0 0 1200 200'%3E%3Cpath d='M0 100 L400 100 L410 80 L420 120 L430 40 L440 160 L450 90 L460 100 L1200 100' stroke='rgba(56, 189, 248, 0.08)' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-      background-repeat: repeat-y;
-      background-size: cover, cover, 100% 200px;
+      background: #040914;
+      position: relative;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 28px 16px;
+      overflow-x: hidden;
+    }
+
+    /* Premium Medical Glowing Orbs & ECG Wave Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 50%;
+      height: 50%;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.25) 0%, rgba(37, 99, 235, 0.1) 50%, transparent 80%);
+      filter: blur(80px);
+      z-index: -2;
+      animation: pulseGlow 8s infinite alternate ease-in-out;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -10%;
+      right: -10%;
+      width: 55%;
+      height: 55%;
+      background: radial-gradient(circle, rgba(13, 148, 136, 0.25) 0%, rgba(99, 102, 241, 0.1) 50%, transparent 80%);
+      filter: blur(80px);
+      z-index: -2;
+      animation: pulseGlow 10s infinite alternate ease-in-out;
+    }
+
+    .medical-bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='300' viewBox='0 0 1000 300'%3E%3Cpath d='M0 150 L350 150 L360 120 L370 180 L380 40 L390 260 L400 130 L410 150 L1000 150' stroke='rgba(56, 189, 248, 0.12)' stroke-width='3' fill='none' stroke-dasharray='1000' stroke-dashoffset='0'%3E%3Canimate attributeName='stroke-dashoffset' from='1000' to='0' dur='4s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E");
+      background-size: 40px 40px, 40px 40px, 100% 300px;
+      background-position: center center;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+      100% { transform: scale(1.15) translate(20px, 20px); opacity: 1; }
     }
 
     /* Navbar Header */
@@ -58,35 +101,36 @@
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       letter-spacing: -0.02em;
     }
 
     .heart-logo {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.5) 100%);
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
-      box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+      font-size: 1.7rem;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
     }
 
     .subtitle-badge {
       background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
-      color: #e2e8f0;
-      padding: 6px 16px;
+      backdrop-filter: blur(12px);
+      color: #f1f5f9;
+      padding: 8px 18px;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .subtitle-badge::before {
@@ -95,7 +139,7 @@
       height: 8px;
       background: #10b981;
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
+      box-shadow: 0 0 10px #10b981;
     }
 
     /* Main Container Layout */
@@ -114,13 +158,14 @@
       }
     }
 
-    /* Form Section */
+    /* Glassmorphism Form Card */
     .form-card {
-      background: #ffffff;
-      border-radius: 20px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
       padding: 32px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
     .form-header {
@@ -128,7 +173,7 @@
     }
 
     .form-header h2 {
-      font-size: 1.4rem;
+      font-size: 1.45rem;
       font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.01em;
@@ -146,7 +191,7 @@
       letter-spacing: 0.06em;
       font-weight: 700;
       color: #0284c7;
-      margin: 22px 0 12px 0;
+      margin: 24px 0 14px 0;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -177,15 +222,15 @@
       font-size: 0.82rem;
       font-weight: 600;
       color: #334155;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
     .input-group input, .input-group select {
       width: 100%;
-      padding: 10px 14px;
+      padding: 11px 14px;
       font-size: 0.9rem;
       border: 1.5px solid #cbd5e1;
-      border-radius: 10px;
+      border-radius: 12px;
       background: #f8fafc;
       color: #0f172a;
       transition: all 0.2s ease;
@@ -195,14 +240,14 @@
       outline: none;
       border-color: var(--primary);
       background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     }
 
     .form-actions {
       grid-column: span 2;
       display: flex;
       gap: 12px;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     @media (max-width: 550px) {
@@ -219,10 +264,10 @@
       font-weight: 700;
       padding: 14px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-      transition: transform 0.1s ease, box-shadow 0.2s ease;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -231,11 +276,12 @@
 
     .submit-btn:hover {
       background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 8px 22px rgba(37, 99, 235, 0.45);
+      transform: translateY(-1px);
     }
 
     .submit-btn:active {
-      transform: scale(0.99);
+      transform: translateY(0);
     }
 
     .reset-btn {
@@ -243,15 +289,15 @@
       color: #64748b;
       font-size: 0.9rem;
       font-weight: 600;
-      padding: 14px 20px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
+      padding: 14px 22px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
       cursor: pointer;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     .reset-btn:hover {
@@ -259,13 +305,14 @@
       color: #334155;
     }
 
-    /* Results Section */
+    /* Glassmorphism Results Card */
     .results-card {
-      background: #ffffff;
-      border-radius: 20px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
       padding: 32px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       position: sticky;
       top: 24px;
     }
@@ -289,9 +336,9 @@
     .status-badge {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 16px;
-      border-radius: 14px;
+      gap: 12px;
+      padding: 18px;
+      border-radius: 16px;
       font-weight: 700;
       font-size: 1.1rem;
       margin-bottom: 20px;
@@ -312,9 +359,9 @@
     /* Risk Score Gauge Meter */
     .score-container {
       background: #f8fafc;
-      padding: 18px;
-      border-radius: 14px;
-      border: 1px solid #e2e8f0;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1.5px solid #e2e8f0;
       margin-bottom: 24px;
     }
 
@@ -322,7 +369,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .score-title {
@@ -332,23 +379,23 @@
     }
 
     .score-value {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: #0f172a;
     }
 
     .progress-bar-bg {
       width: 100%;
-      height: 10px;
+      height: 12px;
       background: #e2e8f0;
-      border-radius: 5px;
+      border-radius: 6px;
       overflow: hidden;
     }
 
     .progress-bar-fill {
       height: 100%;
-      border-radius: 5px;
-      transition: width 0.6s ease;
+      border-radius: 6px;
+      transition: width 0.8s ease-in-out;
     }
 
     .fill-risk {
@@ -362,19 +409,19 @@
     /* Suggestions List */
     .suggestions-box {
       background: #fefce8;
-      border: 1px solid #fef08a;
-      border-radius: 14px;
-      padding: 20px;
+      border: 1.5px solid #fef08a;
+      border-radius: 16px;
+      padding: 22px;
     }
 
     .suggestions-head {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
+      gap: 10px;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #854d0e;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .suggestions-ul {
@@ -390,12 +437,12 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .bullet-dot {
       color: #eab308;
-      font-size: 1rem;
+      font-size: 1.1rem;
       line-height: 1;
     }
 
@@ -411,30 +458,30 @@
     }
 
     .empty-icon {
-      width: 76px;
-      height: 76px;
+      width: 80px;
+      height: 80px;
       background: #f1f5f9;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.3rem;
+      font-size: 2.5rem;
       margin-bottom: 16px;
     }
 
     .empty-state h4 {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: #1e293b;
       margin-bottom: 6px;
     }
 
     .empty-state p {
       font-size: 0.85rem;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .footer-text {
-      color: #94a3b8;
+      color: #64748b;
       font-size: 0.82rem;
       text-align: center;
       margin-top: auto;
@@ -443,6 +490,9 @@
   </style>
 </head>
 <body>
+
+  <!-- Dynamic Background Overlay Grid & Pulse -->
+  <div class="medical-bg-overlay"></div>
 
   <!-- Top Banner -->
   <header class="header-banner">
