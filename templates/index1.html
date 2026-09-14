@@ -284,12 +284,13 @@
           
           <div class="input-group">
             <label for="age">Age (years)</label>
-            <input type="number" id="age" name="age" min="1" max="120" value="{{ form_data.get('age', 42) }}" required>
+            <input type="number" id="age" name="age" min="1" max="120" placeholder="e.g. 45" value="{{ form_data.get('age', '') }}" required>
           </div>
 
           <div class="input-group">
             <label for="sex">Sex</label>
             <select id="sex" name="sex" required>
+              <option value="" disabled {% if not form_data.get('sex') %}selected{% endif %}>Select Sex</option>
               <option value="1" {% if form_data.get('sex') == '1' %}selected{% endif %}>Male (1)</option>
               <option value="0" {% if form_data.get('sex') == '0' %}selected{% endif %}>Female (0)</option>
             </select>
@@ -298,6 +299,7 @@
           <div class="input-group">
             <label for="cp">Chest Pain Type (CP)</label>
             <select id="cp" name="cp" required>
+              <option value="" disabled {% if not form_data.get('cp') %}selected{% endif %}>Select Chest Pain Type</option>
               <option value="0" {% if form_data.get('cp') == '0' %}selected{% endif %}>0: Typical Angina</option>
               <option value="1" {% if form_data.get('cp') == '1' %}selected{% endif %}>1: Atypical Angina</option>
               <option value="2" {% if form_data.get('cp') == '2' %}selected{% endif %}>2: Non-anginal Pain</option>
@@ -307,17 +309,18 @@
 
           <div class="input-group">
             <label for="trestbps">Resting BP (mm Hg)</label>
-            <input type="number" id="trestbps" name="trestbps" min="80" max="240" value="{{ form_data.get('trestbps', 112) }}" required>
+            <input type="number" id="trestbps" name="trestbps" min="80" max="240" placeholder="e.g. 120" value="{{ form_data.get('trestbps', '') }}" required>
           </div>
 
           <div class="input-group">
             <label for="chol">Cholesterol (mg/dl)</label>
-            <input type="number" id="chol" name="chol" min="100" max="600" value="{{ form_data.get('chol', 189) }}" required>
+            <input type="number" id="chol" name="chol" min="100" max="600" placeholder="e.g. 200" value="{{ form_data.get('chol', '') }}" required>
           </div>
 
           <div class="input-group">
             <label for="fbs">Fasting Blood Sugar > 120</label>
             <select id="fbs" name="fbs" required>
+              <option value="" disabled {% if not form_data.get('fbs') %}selected{% endif %}>Select Sugar Level</option>
               <option value="0" {% if form_data.get('fbs') == '0' %}selected{% endif %}>No (0)</option>
               <option value="1" {% if form_data.get('fbs') == '1' %}selected{% endif %}>Yes (1)</option>
             </select>
@@ -326,6 +329,7 @@
           <div class="input-group">
             <label for="restecg">Resting ECG</label>
             <select id="restecg" name="restecg" required>
+              <option value="" disabled {% if not form_data.get('restecg') %}selected{% endif %}>Select ECG Result</option>
               <option value="0" {% if form_data.get('restecg') == '0' %}selected{% endif %}>0: Normal</option>
               <option value="1" {% if form_data.get('restecg') == '1' %}selected{% endif %}>1: ST-T Wave Abnormality</option>
               <option value="2" {% if form_data.get('restecg') == '2' %}selected{% endif %}>2: Left Ventricular Hypertrophy</option>
@@ -334,12 +338,13 @@
 
           <div class="input-group">
             <label for="thalach">Max Heart Rate (thalach)</label>
-            <input type="number" id="thalach" name="thalach" min="60" max="230" value="{{ form_data.get('thalach', 70) }}" required>
+            <input type="number" id="thalach" name="thalach" min="60" max="230" placeholder="e.g. 150" value="{{ form_data.get('thalach', '') }}" required>
           </div>
 
           <div class="input-group">
             <label for="exang">Exercise Induced Angina</label>
             <select id="exang" name="exang" required>
+              <option value="" disabled {% if not form_data.get('exang') %}selected{% endif %}>Select Exercise Angina</option>
               <option value="0" {% if form_data.get('exang') == '0' %}selected{% endif %}>No (0)</option>
               <option value="1" {% if form_data.get('exang') == '1' %}selected{% endif %}>Yes (1)</option>
             </select>
@@ -347,12 +352,13 @@
 
           <div class="input-group">
             <label for="oldpeak">ST Depression (oldpeak)</label>
-            <input type="number" step="0.1" id="oldpeak" name="oldpeak" min="0.0" max="10.0" value="{{ form_data.get('oldpeak', 0.0) }}" required>
+            <input type="number" step="0.1" id="oldpeak" name="oldpeak" min="0.0" max="10.0" placeholder="e.g. 1.0" value="{{ form_data.get('oldpeak', '') }}" required>
           </div>
 
           <div class="input-group">
             <label for="slope">ST Segment Slope</label>
             <select id="slope" name="slope" required>
+              <option value="" disabled {% if not form_data.get('slope') %}selected{% endif %}>Select ST Slope</option>
               <option value="0" {% if form_data.get('slope') == '0' %}selected{% endif %}>0: Upsloping</option>
               <option value="1" {% if form_data.get('slope') == '1' %}selected{% endif %}>1: Flat</option>
               <option value="2" {% if form_data.get('slope') == '2' %}selected{% endif %}>2: Downsloping</option>
@@ -362,6 +368,7 @@
           <div class="input-group">
             <label for="ca">Major Vessels (0-4)</label>
             <select id="ca" name="ca" required>
+              <option value="" disabled {% if not form_data.get('ca') %}selected{% endif %}>Select Major Vessels</option>
               <option value="0" {% if form_data.get('ca') == '0' %}selected{% endif %}>0</option>
               <option value="1" {% if form_data.get('ca') == '1' %}selected{% endif %}>1</option>
               <option value="2" {% if form_data.get('ca') == '2' %}selected{% endif %}>2</option>
@@ -373,6 +380,7 @@
           <div class="input-group" style="grid-column: span 2;">
             <label for="thal">Thalassemia (Thal)</label>
             <select id="thal" name="thal" required>
+              <option value="" disabled {% if not form_data.get('thal') %}selected{% endif %}>Select Thalassemia</option>
               <option value="1" {% if form_data.get('thal') == '1' %}selected{% endif %}>1: Normal</option>
               <option value="2" {% if form_data.get('thal') == '2' %}selected{% endif %}>2: Fixed Defect</option>
               <option value="3" {% if form_data.get('thal') == '3' %}selected{% endif %}>3: Reversible Defect</option>

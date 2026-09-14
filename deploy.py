@@ -22,7 +22,6 @@ FEATURE_NAMES = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thal
 def generate_suggestions(params, result_val, risk_score):
     suggestions = []
     
-    # Extract values for clinical rules
     chol = params.get('chol', 200)
     trestbps = params.get('trestbps', 120)
     exang = params.get('exang', 0)
@@ -30,14 +29,12 @@ def generate_suggestions(params, result_val, risk_score):
     thalach = params.get('thalach', 150)
     fbs = params.get('fbs', 0)
     
-    # Direct recommendations matching report mockups (Page 15/20)
     if risk_score > 0.40 or result_val == 1:
         suggestions.append("lose weight")
         suggestions.append("do more exercise")
         suggestions.append("eat healthy food")
         suggestions.append("try reducing alcohol")
     
-    # Specific targeted medical suggestions
     if chol > 200:
         if "eat healthy food" not in suggestions:
             suggestions.append("eat healthy food (low saturated fat & cholesterol)")
@@ -58,12 +55,8 @@ def generate_suggestions(params, result_val, risk_score):
 
 @app.route('/', methods=['GET'])
 def home():
-    form_data = {
-        'age': '42', 'sex': '0', 'cp': '0', 'trestbps': '112', 'chol': '189',
-        'fbs': '0', 'restecg': '0', 'thalach': '70', 'exang': '0', 'oldpeak': '0.0',
-        'slope': '1', 'ca': '0', 'thal': '2'
-    }
-    return render_template('index1.html', form_data=form_data, result='', health_score=None, suggestions=[])
+    # Blank form_data on fresh load
+    return render_template('index1.html', form_data={}, result='', health_score=None, suggestions=[])
 
 @app.route('/predict', methods=['POST', 'GET'])
 def predict():
