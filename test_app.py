@@ -9,25 +9,29 @@ class HeartPredictionTestCase(unittest.TestCase):
     def test_home_page(self):
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Heart Attack Prediction', response.data)
-        self.assertIn(b'Patient Attributes Form', response.data)
+        self.assertIn(b'Heart Disease Detection', response.data)
 
     def test_prediction_post(self):
-        # Sample high-risk payload
+        # 18-feature payload from report mockup
         payload = {
-            'age': '60',
+            'age': '20',
             'sex': '1',
-            'cp': '0',
-            'trestbps': '150',
-            'chol': '280',
-            'fbs': '1',
-            'restecg': '1',
-            'thalach': '110',
-            'exang': '1',
-            'oldpeak': '2.5',
-            'slope': '1',
-            'ca': '2',
-            'thal': '3'
+            'bp_systolic': '120',
+            'bp_diastolic': '90',
+            'cholesterol': '80',
+            'triglycerides': '100',
+            'heart_rate': '72',
+            'diabetes': '0',
+            'family_history': '0',
+            'smoking': '0',
+            'obesity': '1',
+            'alcohol': '1',
+            'medication': '0',
+            'diet': '0',
+            'previous_problems': '1',
+            'sleep_hours': '10',
+            'bmi': '29.5',
+            'exercise_hours': '0'
         }
         response = self.app.post('/predict', data=payload, headers={'Accept': 'application/json'})
         self.assertEqual(response.status_code, 200)
@@ -35,15 +39,17 @@ class HeartPredictionTestCase(unittest.TestCase):
         self.assertIn('result', data)
         self.assertIn('health_score', data)
         self.assertIn('suggestions', data)
-        print("\nTest Prediction Payload Response:")
+        print("\nTest 18-Feature Prediction Response:")
         print(data)
 
     def test_suggestions_engine(self):
-        params = {'chol': 250, 'trestbps': 140, 'exang': 1, 'oldpeak': 2.0, 'thalach': 100, 'fbs': 1}
-        suggestions = generate_suggestions(params, result_val=1, risk_score=0.85)
+        params = {'bmi': 29.5, 'exercise_hours': 0, 'diet': 0, 'alcohol': 1}
+        suggestions = generate_suggestions(params, result_val=1, risk_score=0.48)
         self.assertTrue(len(suggestions) > 0)
         self.assertIn("lose weight", suggestions)
         self.assertIn("do more exercise", suggestions)
+        self.assertIn("eat healthy food", suggestions)
+        self.assertIn("try reducing alcohol", suggestions)
 
 if __name__ == '__main__':
     unittest.main()

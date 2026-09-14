@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heart Attack Prediction & Health Advisor</title>
+  <title>Heart Disease Detection & Health Advisor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
       width: 100%;
       max-width: 1100px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 25px;
       background: #ffffff;
       border-radius: 16px;
@@ -69,15 +69,21 @@
     .form-section h3 {
       color: #1e293b;
       font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    .form-subtitle {
+      color: #64748b;
+      font-size: 0.9rem;
       margin-bottom: 20px;
       border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
     @media (max-width: 500px) {
@@ -92,18 +98,18 @@
     }
 
     .input-group label {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #475569;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .input-group input, .input-group select {
       width: 100%;
-      padding: 10px 12px;
-      font-size: 0.95rem;
+      padding: 9px 11px;
+      font-size: 0.9rem;
       border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 6px;
       background: #f8fafc;
       transition: all 0.2s ease;
     }
@@ -117,16 +123,16 @@
 
     .submit-btn {
       grid-column: span 2;
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      background: #2563eb;
       color: #ffffff;
       font-size: 1.05rem;
       font-weight: 600;
       padding: 12px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       margin-top: 15px;
-      transition: transform 0.1s ease, box-shadow 0.2s ease;
+      transition: background 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -134,12 +140,7 @@
     }
 
     .submit-btn:hover {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    }
-
-    .submit-btn:active {
-      transform: scale(0.99);
+      background: #1d4ed8;
     }
 
     .results-section {
@@ -158,14 +159,14 @@
       font-weight: 700;
       text-align: center;
       padding: 10px;
-      border-radius: 8px;
+      border-radius: 6px;
       margin-bottom: 20px;
     }
 
     .result-badge {
       display: inline-block;
       padding: 12px 18px;
-      border-radius: 10px;
+      border-radius: 8px;
       font-weight: 700;
       font-size: 1.1rem;
       text-align: center;
@@ -188,7 +189,7 @@
       font-size: 1.1rem;
       font-weight: 700;
       color: #1e293b;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .health-score-subtitle {
@@ -201,21 +202,21 @@
     .suggestions-container {
       display: flex;
       gap: 20px;
-      background: #fff9c4;
+      background: #fef9c3;
       padding: 20px;
-      border-radius: 12px;
+      border-radius: 8px;
       border: 1px solid #fef08a;
     }
 
     .medical-icon-box {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       background: #fef08a;
-      border-radius: 12px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.2rem;
+      font-size: 2rem;
       flex-shrink: 0;
     }
 
@@ -227,7 +228,7 @@
       font-size: 1rem;
       font-weight: 700;
       color: #1e293b;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .suggestions-list {
@@ -238,7 +239,7 @@
     .suggestions-list li {
       font-size: 0.9rem;
       color: #334155;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .placeholder-box {
@@ -270,21 +271,24 @@
 
   <div class="header-title">
     <span class="header-icon">❤️</span>
-    Heart Attack Prediction & Health Advisor
+    Heart Disease Detection
   </div>
 
   <div class="main-container">
     
-    <!-- Input Form Section -->
+    <!-- Input Form Section (Matching Exact Report Mockup Page 15/19) -->
     <div class="form-section">
-      <h3>Patient Attributes Form</h3>
+      <h3>Heart Disease Detection</h3>
+      <div class="form-subtitle">Please fill the form below.</div>
+
       <form action="{{ url_for('predict') }}" method="post" autocomplete="off">
         
         <div class="form-grid">
           
+          <!-- Row 1 -->
           <div class="input-group">
-            <label for="age">Age (years)</label>
-            <input type="number" id="age" name="age" min="1" max="120" placeholder="e.g. 45" value="{{ form_data.get('age', '') }}" required>
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" min="1" max="120" placeholder="e.g. 20" value="{{ form_data.get('age', '') }}" required>
           </div>
 
           <div class="input-group">
@@ -296,112 +300,142 @@
             </select>
           </div>
 
+          <!-- Row 2 -->
           <div class="input-group">
-            <label for="cp">Chest Pain Type (CP)</label>
-            <select id="cp" name="cp" required>
-              <option value="" disabled {% if not form_data.get('cp') and form_data.get('cp') != 0 %}selected{% endif %}>Select Chest Pain Type</option>
-              <option value="0" {% if form_data.get('cp') == '0' or form_data.get('cp') == 0 %}selected{% endif %}>Typical Angina</option>
-              <option value="1" {% if form_data.get('cp') == '1' or form_data.get('cp') == 1 %}selected{% endif %}>Atypical Angina</option>
-              <option value="2" {% if form_data.get('cp') == '2' or form_data.get('cp') == 2 %}selected{% endif %}>Non-anginal Pain</option>
-              <option value="3" {% if form_data.get('cp') == '3' or form_data.get('cp') == 3 %}selected{% endif %}>Asymptomatic</option>
+            <label for="bp_systolic">BP Systolic</label>
+            <input type="number" id="bp_systolic" name="bp_systolic" min="70" max="240" placeholder="e.g. 120" value="{{ form_data.get('bp_systolic', '') }}" required>
+          </div>
+
+          <div class="input-group">
+            <label for="bp_diastolic">BP Diastolic</label>
+            <input type="number" id="bp_diastolic" name="bp_diastolic" min="40" max="150" placeholder="e.g. 90" value="{{ form_data.get('bp_diastolic', '') }}" required>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="input-group">
+            <label for="cholesterol">Cholesterol</label>
+            <input type="number" id="cholesterol" name="cholesterol" min="50" max="600" placeholder="e.g. 80" value="{{ form_data.get('cholesterol', '') }}" required>
+          </div>
+
+          <div class="input-group">
+            <label for="triglycerides">Triglycerides</label>
+            <input type="number" id="triglycerides" name="triglycerides" min="30" max="1000" placeholder="e.g. 100" value="{{ form_data.get('triglycerides', '') }}" required>
+          </div>
+
+          <!-- Row 4 -->
+          <div class="input-group">
+            <label for="heart_rate">Heart Rate</label>
+            <input type="number" id="heart_rate" name="heart_rate" min="40" max="220" placeholder="e.g. 72" value="{{ form_data.get('heart_rate', '') }}" required>
+          </div>
+
+          <div class="input-group">
+            <label for="diabetes">Diabetes</label>
+            <select id="diabetes" name="diabetes" required>
+              <option value="" disabled {% if not form_data.get('diabetes') and form_data.get('diabetes') != 0 %}selected{% endif %}>Select</option>
+              <option value="0" {% if form_data.get('diabetes') == '0' or form_data.get('diabetes') == 0 %}selected{% endif %}>No</option>
+              <option value="1" {% if form_data.get('diabetes') == '1' or form_data.get('diabetes') == 1 %}selected{% endif %}>Yes</option>
+            </select>
+          </div>
+
+          <!-- Row 5 -->
+          <div class="input-group">
+            <label for="family_history">Family History</label>
+            <select id="family_history" name="family_history" required>
+              <option value="" disabled {% if not form_data.get('family_history') and form_data.get('family_history') != 0 %}selected{% endif %}>Select</option>
+              <option value="0" {% if form_data.get('family_history') == '0' or form_data.get('family_history') == 0 %}selected{% endif %}>No</option>
+              <option value="1" {% if form_data.get('family_history') == '1' or form_data.get('family_history') == 1 %}selected{% endif %}>Yes</option>
             </select>
           </div>
 
           <div class="input-group">
-            <label for="trestbps">Resting BP (mm Hg)</label>
-            <input type="number" id="trestbps" name="trestbps" min="80" max="240" placeholder="e.g. 120" value="{{ form_data.get('trestbps', '') }}" required>
+            <label for="smoking">Smoking</label>
+            <select id="smoking" name="smoking" required>
+              <option value="" disabled {% if not form_data.get('smoking') and form_data.get('smoking') != 0 %}selected{% endif %}>Select</option>
+              <option value="0" {% if form_data.get('smoking') == '0' or form_data.get('smoking') == 0 %}selected{% endif %}>No</option>
+              <option value="1" {% if form_data.get('smoking') == '1' or form_data.get('smoking') == 1 %}selected{% endif %}>Yes</option>
+            </select>
           </div>
 
+          <!-- Row 6 -->
           <div class="input-group">
-            <label for="chol">Cholesterol (mg/dl)</label>
-            <input type="number" id="chol" name="chol" min="100" max="600" placeholder="e.g. 200" value="{{ form_data.get('chol', '') }}" required>
-          </div>
-
-          <div class="input-group">
-            <label for="fbs">Fasting Blood Sugar > 120 mg/dl</label>
-            <select id="fbs" name="fbs" required>
-              <option value="" disabled {% if not form_data.get('fbs') and form_data.get('fbs') != 0 %}selected{% endif %}>Select Blood Sugar</option>
-              <option value="0" {% if form_data.get('fbs') == '0' or form_data.get('fbs') == 0 %}selected{% endif %}>No (<= 120 mg/dl)</option>
-              <option value="1" {% if form_data.get('fbs') == '1' or form_data.get('fbs') == 1 %}selected{% endif %}>Yes (> 120 mg/dl)</option>
+            <label for="obesity">Obesity</label>
+            <select id="obesity" name="obesity" required>
+              <option value="" disabled {% if not form_data.get('obesity') and form_data.get('obesity') != 0 %}selected{% endif %}>Select</option>
+              <option value="0" {% if form_data.get('obesity') == '0' or form_data.get('obesity') == 0 %}selected{% endif %}>No</option>
+              <option value="1" {% if form_data.get('obesity') == '1' or form_data.get('obesity') == 1 %}selected{% endif %}>Yes</option>
             </select>
           </div>
 
           <div class="input-group">
-            <label for="restecg">Resting ECG Result</label>
-            <select id="restecg" name="restecg" required>
-              <option value="" disabled {% if not form_data.get('restecg') and form_data.get('restecg') != 0 %}selected{% endif %}>Select ECG Result</option>
-              <option value="0" {% if form_data.get('restecg') == '0' or form_data.get('restecg') == 0 %}selected{% endif %}>Normal</option>
-              <option value="1" {% if form_data.get('restecg') == '1' or form_data.get('restecg') == 1 %}selected{% endif %}>ST-T Wave Abnormality</option>
-              <option value="2" {% if form_data.get('restecg') == '2' or form_data.get('restecg') == 2 %}selected{% endif %}>Left Ventricular Hypertrophy</option>
+            <label for="alcohol">Alcohol Consumption</label>
+            <select id="alcohol" name="alcohol" required>
+              <option value="" disabled {% if not form_data.get('alcohol') and form_data.get('alcohol') != 0 %}selected{% endif %}>Select</option>
+              <option value="0" {% if form_data.get('alcohol') == '0' or form_data.get('alcohol') == 0 %}selected{% endif %}>No</option>
+              <option value="1" {% if form_data.get('alcohol') == '1' or form_data.get('alcohol') == 1 %}selected{% endif %}>Yes</option>
+            </select>
+          </div>
+
+          <!-- Row 7 -->
+          <div class="input-group">
+            <label for="medication">Medication Use</label>
+            <select id="medication" name="medication" required>
+              <option value="" disabled {% if not form_data.get('medication') and form_data.get('medication') != 0 %}selected{% endif %}>Select</option>
+              <option value="0" {% if form_data.get('medication') == '0' or form_data.get('medication') == 0 %}selected{% endif %}>No</option>
+              <option value="1" {% if form_data.get('medication') == '1' or form_data.get('medication') == 1 %}selected{% endif %}>Yes</option>
             </select>
           </div>
 
           <div class="input-group">
-            <label for="thalach">Max Heart Rate (bpm)</label>
-            <input type="number" id="thalach" name="thalach" min="60" max="230" placeholder="e.g. 150" value="{{ form_data.get('thalach', '') }}" required>
+            <label for="diet">Diet</label>
+            <select id="diet" name="diet" required>
+              <option value="" disabled {% if not form_data.get('diet') and form_data.get('diet') != 0 %}selected{% endif %}>Select Diet</option>
+              <option value="0" {% if form_data.get('diet') == '0' or form_data.get('diet') == 0 %}selected{% endif %}>Unhealthy</option>
+              <option value="1" {% if form_data.get('diet') == '1' or form_data.get('diet') == 1 %}selected{% endif %}>Average</option>
+              <option value="2" {% if form_data.get('diet') == '2' or form_data.get('diet') == 2 %}selected{% endif %}>Healthy</option>
+            </select>
           </div>
 
+          <!-- Row 8 -->
           <div class="input-group">
-            <label for="exang">Exercise Induced Angina</label>
-            <select id="exang" name="exang" required>
-              <option value="" disabled {% if not form_data.get('exang') and form_data.get('exang') != 0 %}selected{% endif %}>Select Exercise Angina</option>
-              <option value="0" {% if form_data.get('exang') == '0' or form_data.get('exang') == 0 %}selected{% endif %}>No</option>
-              <option value="1" {% if form_data.get('exang') == '1' or form_data.get('exang') == 1 %}selected{% endif %}>Yes</option>
+            <label for="previous_problems">Previous Heart Problems</label>
+            <select id="previous_problems" name="previous_problems" required>
+              <option value="" disabled {% if not form_data.get('previous_problems') and form_data.get('previous_problems') != 0 %}selected{% endif %}>Select</option>
+              <option value="0" {% if form_data.get('previous_problems') == '0' or form_data.get('previous_problems') == 0 %}selected{% endif %}>No</option>
+              <option value="1" {% if form_data.get('previous_problems') == '1' or form_data.get('previous_problems') == 1 %}selected{% endif %}>Yes</option>
             </select>
           </div>
 
           <div class="input-group">
-            <label for="oldpeak">ST Depression (oldpeak)</label>
-            <input type="number" step="0.1" id="oldpeak" name="oldpeak" min="0.0" max="10.0" placeholder="e.g. 1.0" value="{{ form_data.get('oldpeak', '') }}" required>
+            <label for="sleep_hours">Sleep Hours Per Day</label>
+            <input type="number" id="sleep_hours" name="sleep_hours" min="1" max="24" placeholder="e.g. 7" value="{{ form_data.get('sleep_hours', '') }}" required>
+          </div>
+
+          <!-- Row 9 -->
+          <div class="input-group">
+            <label for="bmi">BMI</label>
+            <input type="number" step="0.1" id="bmi" name="bmi" min="10.0" max="60.0" placeholder="e.g. 29.5" value="{{ form_data.get('bmi', '') }}" required>
           </div>
 
           <div class="input-group">
-            <label for="slope">ST Segment Slope</label>
-            <select id="slope" name="slope" required>
-              <option value="" disabled {% if not form_data.get('slope') and form_data.get('slope') != 0 %}selected{% endif %}>Select ST Slope</option>
-              <option value="0" {% if form_data.get('slope') == '0' or form_data.get('slope') == 0 %}selected{% endif %}>Upsloping</option>
-              <option value="1" {% if form_data.get('slope') == '1' or form_data.get('slope') == 1 %}selected{% endif %}>Flat</option>
-              <option value="2" {% if form_data.get('slope') == '2' or form_data.get('slope') == 2 %}selected{% endif %}>Downsloping</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label for="ca">Major Vessels (colored by fluoroscopy)</label>
-            <select id="ca" name="ca" required>
-              <option value="" disabled {% if not form_data.get('ca') and form_data.get('ca') != 0 %}selected{% endif %}>Select Major Vessels</option>
-              <option value="0" {% if form_data.get('ca') == '0' or form_data.get('ca') == 0 %}selected{% endif %}>0 Vessels</option>
-              <option value="1" {% if form_data.get('ca') == '1' or form_data.get('ca') == 1 %}selected{% endif %}>1 Vessel</option>
-              <option value="2" {% if form_data.get('ca') == '2' or form_data.get('ca') == 2 %}selected{% endif %}>2 Vessels</option>
-              <option value="3" {% if form_data.get('ca') == '3' or form_data.get('ca') == 3 %}selected{% endif %}>3 Vessels</option>
-              <option value="4" {% if form_data.get('ca') == '4' or form_data.get('ca') == 4 %}selected{% endif %}>4 Vessels</option>
-            </select>
-          </div>
-
-          <div class="input-group" style="grid-column: span 2;">
-            <label for="thal">Thalassemia (Thal)</label>
-            <select id="thal" name="thal" required>
-              <option value="" disabled {% if not form_data.get('thal') and form_data.get('thal') != 0 %}selected{% endif %}>Select Thalassemia</option>
-              <option value="1" {% if form_data.get('thal') == '1' or form_data.get('thal') == 1 %}selected{% endif %}>Normal</option>
-              <option value="2" {% if form_data.get('thal') == '2' or form_data.get('thal') == 2 %}selected{% endif %}>Fixed Defect</option>
-              <option value="3" {% if form_data.get('thal') == '3' or form_data.get('thal') == 3 %}selected{% endif %}>Reversible Defect</option>
-            </select>
+            <label for="exercise_hours">Exercise Hours Per Week</label>
+            <input type="number" step="0.1" id="exercise_hours" name="exercise_hours" min="0.0" max="40.0" placeholder="e.g. 0" value="{{ form_data.get('exercise_hours', '') }}" required>
           </div>
 
           <button type="submit" class="submit-btn" id="predictBtn">
-            <span>Analyze & Predict</span> 🔍
+            <span>Analyze</span> 🔍
           </button>
         </div>
 
       </form>
     </div>
 
-    <!-- Results Display Section -->
+    <!-- Results Display Section (Matching Exact Report Mockup Page 15/20) -->
     <div class="results-section" id="resultsSection">
       
       <div class="results-header-bar">Results</div>
 
       {% if result %}
-        <div class="result-badge {% if result_val == 1 %}result-risk{% else %}result-norisk{% endif %}">
+        <div class="result-badge {% if result_val == 1 or (health_score and health_score >= 0.45) %}result-risk{% else %}result-norisk{% endif %}">
           {{ result }}
         </div>
 
@@ -410,10 +444,10 @@
           Health score is {{ health_score }}
         </div>
         <div class="health-score-subtitle">
-          {% if result_val == 1 %}
-            You can improve your Heart health by following these suggestions:
+          {% if result_val == 1 or health_score >= 0.45 %}
+            You can improve your Heart health by following these suggestions
           {% else %}
-            Maintain optimal heart health with these lifestyle practices:
+            Maintain your Heart health by following these suggestions
           {% endif %}
         </div>
         {% endif %}
@@ -434,7 +468,7 @@
         <div class="placeholder-box">
           <div class="placeholder-icon">🩺</div>
           <h4>No Prediction Yet</h4>
-          <p style="font-size: 0.9rem; margin-top: 8px;">Fill in the patient's medical attributes on the left and click <strong>Analyze & Predict</strong> to view the heart risk score and health recommendations.</p>
+          <p style="font-size: 0.9rem; margin-top: 8px;">Fill in the patient's attributes on the left and click <strong>Analyze</strong> to view the heart health score and suggestions.</p>
         </div>
       {% endif %}
 
@@ -443,7 +477,7 @@
   </div>
 
   <div class="footer">
-    Heart Attack Prediction System • Powered by Machine Learning (Random Forest Classifier)
+    Heart Disease Detection • Powered by Machine Learning (Random Forest Classifier)
   </div>
 
 </body>

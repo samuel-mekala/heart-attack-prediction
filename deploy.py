@@ -17,36 +17,38 @@ try:
 except Exception as e:
     print(f"Error loading model from {MODEL_PATH}: {e}")
 
-FEATURE_NAMES = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
+FEATURE_NAMES = [
+    'Age', 'Sex_Code', 'BP_Systolic', 'BP_Diastolic', 'Cholesterol', 'Triglycerides',
+    'Heart Rate', 'Diabetes', 'Family History', 'Smoking', 'Obesity', 'Alcohol_Code',
+    'Medication Use', 'Diet_Code', 'Previous Heart Problems', 'Sleep Hours Per Day',
+    'BMI', 'Exercise Hours Per Week'
+]
 
 def generate_suggestions(params, result_val, risk_score):
     suggestions = []
     
+    bmi = params.get('bmi', 25.0)
+    exercise_hours = params.get('exercise_hours', 3.0)
+    diet = params.get('diet', 1)
+    alcohol = params.get('alcohol', 0)
     chol = params.get('chol', 200)
-    trestbps = params.get('trestbps', 120)
-    exang = params.get('exang', 0)
-    oldpeak = params.get('oldpeak', 0.0)
-    thalach = params.get('thalach', 150)
-    fbs = params.get('fbs', 0)
+    bp_sys = params.get('bp_systolic', 120)
+    smoking = params.get('smoking', 0)
     
-    if risk_score > 0.40 or result_val == 1:
+    # Matching exact recommendations shown in report Page 15 & 20
+    if bmi > 25.0 or risk_score > 0.40 or result_val == 1:
         suggestions.append("lose weight")
+    if exercise_hours < 2.5 or risk_score > 0.40 or result_val == 1:
         suggestions.append("do more exercise")
+    if diet == 0 or chol > 200 or risk_score > 0.40 or result_val == 1:
         suggestions.append("eat healthy food")
+    if alcohol > 0 or risk_score > 0.40 or result_val == 1:
         suggestions.append("try reducing alcohol")
-    
-    if chol > 200:
-        if "eat healthy food" not in suggestions:
-            suggestions.append("eat healthy food (low saturated fat & cholesterol)")
-    if trestbps > 130:
-        suggestions.append("monitor blood pressure regularly and reduce sodium intake")
-    if fbs == 1:
-        suggestions.append("manage blood sugar levels and consult a dietitian")
-    if exang == 1 or thalach < 120:
-        if "do more exercise" not in suggestions:
-            suggestions.append("do regular moderate cardiovascular exercise")
-    if oldpeak > 1.5:
-        suggestions.append("schedule a detailed cardiac checkup with your physician")
+        
+    if bp_sys > 130:
+        suggestions.append("monitor blood pressure regularly")
+    if smoking == 1:
+        suggestions.append("quit smoking to protect cardiovascular health")
         
     if not suggestions:
         suggestions = ["maintain a balanced diet", "stay physically active", "regular annual health checkups"]
@@ -55,7 +57,6 @@ def generate_suggestions(params, result_val, risk_score):
 
 @app.route('/', methods=['GET'])
 def home():
-    # Blank form_data on fresh load
     return render_template('index1.html', form_data={}, result='', health_score=None, suggestions=[])
 
 @app.route('/predict', methods=['POST', 'GET'])
@@ -66,21 +67,32 @@ def predict():
     try:
         data = request.form
         
-        age = int(data.get('age', 42))
-        sex = int(data.get('sex', 0))
-        cp = int(data.get('cp', 0))
-        trestbps = int(data.get('trestbps', 120))
-        chol = int(data.get('chol', 200))
-        fbs = int(data.get('fbs', 0))
-        restecg = int(data.get('restecg', 0))
-        thalach = int(data.get('thalach', 150))
-        exang = int(data.get('exang', 0))
-        oldpeak = float(data.get('oldpeak', 0.0))
-        slope = int(data.get('slope', 1))
-        ca = int(data.get('ca', 0))
-        thal = int(data.get('thal', 2))
+        age = float(data.get('age', 40))
+        sex = int(data.get('sex', 1))
+        bp_systolic = float(data.get('bp_systolic', 120))
+        bp_diastolic = float(data.get('bp_diastolic', 80))
+        chol = float(data.get('cholesterol', 200))
+        triglycerides = float(data.get('triglycerides', 150))
+        heart_rate = float(data.get('heart_rate', 72))
+        diabetes = int(data.get('diabetes', 0))
+        family_history = int(data.get('family_history', 0))
+        smoking = int(data.get('smoking', 0))
+        obesity = int(data.get('obesity', 0))
+        alcohol = int(data.get('alcohol', 0))
+        medication = int(data.get('medication', 0))
+        diet = int(data.get('diet', 1))
+        previous_problems = int(data.get('previous_problems', 0))
+        sleep_hours = float(data.get('sleep_hours', 7))
+        bmi = float(data.get('bmi', 24.5))
+        exercise_hours = float(data.get('exercise_hours', 3))
         
-        input_data = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+        input_data = [
+            age, sex, bp_systolic, bp_diastolic, chol, triglycerides,
+            heart_rate, diabetes, family_history, smoking, obesity, alcohol,
+            medication, diet, previous_problems, sleep_hours,
+            bmi, exercise_hours
+        ]
+        
         input_df = pd.DataFrame([input_data], columns=FEATURE_NAMES)
         
         if model is None:
@@ -88,19 +100,22 @@ def predict():
             
         result_val = int(model.predict(input_df)[0])
         
-        prob = model.predict_proba(input_df)[0][1] if hasattr(model, 'predict_proba') else (0.85 if result_val == 1 else 0.15)
+        prob = model.predict_proba(input_df)[0][1] if hasattr(model, 'predict_proba') else (0.48 if result_val == 1 else 0.15)
         health_score = round(float(prob), 2)
         health_score_pct = round(float(prob) * 100, 1)
         
-        if result_val == 1:
+        if result_val == 1 or health_score >= 0.45:
             result = 'Risk of Heart Attack!'
         else:
             result = 'No risk of Heart Attack!'
             
         param_dict = {
-            'age': age, 'sex': sex, 'cp': cp, 'trestbps': trestbps, 'chol': chol,
-            'fbs': fbs, 'restecg': restecg, 'thalach': thalach, 'exang': exang,
-            'oldpeak': oldpeak, 'slope': slope, 'ca': ca, 'thal': thal
+            'age': age, 'sex': sex, 'bp_systolic': bp_systolic, 'bp_diastolic': bp_diastolic,
+            'chol': chol, 'triglycerides': triglycerides, 'heart_rate': heart_rate,
+            'diabetes': diabetes, 'family_history': family_history, 'smoking': smoking,
+            'obesity': obesity, 'alcohol': alcohol, 'medication': medication, 'diet': diet,
+            'previous_problems': previous_problems, 'sleep_hours': sleep_hours,
+            'bmi': bmi, 'exercise_hours': exercise_hours
         }
         
         suggestions = generate_suggestions(param_dict, result_val, health_score)
@@ -130,7 +145,4 @@ def predict():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
-    try:
-        app.run(host='0.0.0.0', port=port, debug=False)
-    except OSError:
-        app.run(host='0.0.0.0', port=5002, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)
