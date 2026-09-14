@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heart Disease Detection & Health Advisor</title>
+  <title>Heart Disease Detection & Clinical Advisor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,13 +11,10 @@
     :root {
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
       --card-bg: #ffffff;
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --accent-blue: #0284c7;
-      --accent-teal: #0d9488;
+      --border-color: #cbd5e1;
     }
 
     * {
@@ -28,13 +25,20 @@
     }
 
     body {
-      background: var(--bg-gradient);
+      background: #0b192c;
+      /* Medical ECG Pulse Waveform Background Pattern */
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(13, 148, 136, 0.15) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='200' viewBox='0 0 1200 200'%3E%3Cpath d='M0 100 L400 100 L410 80 L420 120 L430 40 L440 160 L450 90 L460 100 L1200 100' stroke='rgba(56, 189, 248, 0.08)' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+      background-repeat: repeat-y;
+      background-size: cover, cover, 100% 200px;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 24px 16px;
+      padding: 28px 16px;
     }
 
     /* Navbar Header */
@@ -44,7 +48,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       padding: 0 8px;
     }
 
@@ -59,26 +63,39 @@
     }
 
     .heart-logo {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      width: 44px;
-      height: 44px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      width: 46px;
+      height: 46px;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
     }
 
     .subtitle-badge {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
       color: #e2e8f0;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 20px;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .subtitle-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
     }
 
     /* Main Container Layout */
@@ -101,9 +118,9 @@
     .form-card {
       background: #ffffff;
       border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .form-header {
@@ -112,7 +129,7 @@
 
     .form-header h2 {
       font-size: 1.4rem;
-      font-weight: 700;
+      font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.01em;
     }
@@ -129,7 +146,7 @@
       letter-spacing: 0.06em;
       font-weight: 700;
       color: #0284c7;
-      margin: 20px 0 12px 0;
+      margin: 22px 0 12px 0;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -204,7 +221,7 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
       transition: transform 0.1s ease, box-shadow 0.2s ease;
       display: flex;
       align-items: center;
@@ -214,7 +231,7 @@
 
     .submit-btn:hover {
       background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
     }
 
     .submit-btn:active {
@@ -246,9 +263,9 @@
     .results-card {
       background: #ffffff;
       border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       position: sticky;
       top: 24px;
     }
@@ -264,7 +281,7 @@
 
     .results-header-bar h3 {
       font-size: 1.25rem;
-      font-weight: 700;
+      font-weight: 800;
       color: #0f172a;
     }
 
@@ -394,14 +411,14 @@
     }
 
     .empty-icon {
-      width: 70px;
-      height: 70px;
+      width: 76px;
+      height: 76px;
       background: #f1f5f9;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.2rem;
+      font-size: 2.3rem;
       margin-bottom: 16px;
     }
 
@@ -417,11 +434,11 @@
     }
 
     .footer-text {
-      color: #64748b;
+      color: #94a3b8;
       font-size: 0.82rem;
       text-align: center;
       margin-top: auto;
-      padding-top: 20px;
+      padding-top: 24px;
     }
   </style>
 </head>
@@ -434,7 +451,7 @@
       Heart Disease Detection & Advisor
     </div>
     <div class="subtitle-badge">
-      Random Forest Classifier Model
+      Clinical Evaluation Active
     </div>
   </header>
 
@@ -444,7 +461,7 @@
     <div class="form-card">
       <div class="form-header">
         <h2>Patient Assessment Form</h2>
-        <p>Enter patient health indicators for instant ML risk evaluation.</p>
+        <p>Fill out the clinical indicators below for an instant risk assessment.</p>
       </div>
 
       <form action="{{ url_for('predict') }}" method="post" autocomplete="off">
@@ -679,7 +696,7 @@
   </div>
 
   <footer class="footer-text">
-    Heart Attack Prediction & Health Advisor System • Powered by Machine Learning
+    Heart Disease Detection & Health Advisor System
   </footer>
 
 </body>
