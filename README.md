@@ -11,6 +11,16 @@ An advanced end-to-end Machine Learning web application and clinical decision-su
 
 ---
 
+## 🖼️ Application Interface & Screenshots
+
+### 1. Patient Assessment Form Interface
+![Patient Assessment Form](static/images/app_form.png)
+
+### 2. Clinical Evaluation & Health Advisor Dashboard
+![Clinical Evaluation Results](static/images/app_results.png)
+
+---
+
 ## 📌 Project Overview & Objectives
 
 Cardiovascular diseases are the leading cause of global mortality. Early detection and targeted lifestyle intervention significantly reduce mortality rates. Submitted as part of computer science research at VIT-AP University, this project combines machine learning algorithms with clinical risk guidelines to provide:
@@ -140,6 +150,11 @@ heart-attack-prediction/
 ├── savemodel.sav                     # Serialized trained model bundle artifact
 ├── heart_new.csv                     # Clinical heart dataset (5,125 rows)
 ├── heart_attack_prediction_dataset.csv# 26-column Kaggle heart attack risk dataset
+├── static/
+│   ├── css/style.css
+│   └── images/
+│       ├── app_form.png              # Real screenshot: Form Interface
+│       └── app_results.png           # Real screenshot: Results Dashboard
 ├── templates/
 │   └── index1.html                   # Glassmorphism responsive web interface & dashboard
 ├── test_app.py                       # Unit test suite
